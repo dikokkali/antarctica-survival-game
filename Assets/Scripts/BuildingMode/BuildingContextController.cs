@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using GoonRaccoon.Utils;
+using GoonRaccoon.Utils.DebugUtils;
 
 public class BuildingContextController : MonoBehaviour
 {
@@ -18,6 +20,9 @@ public class BuildingContextController : MonoBehaviour
     [SerializeField] public GameObject _pointedObject;
     [SerializeField] public GameObject _selectedObject;
 
+    [Header("Building Mode Options")]
+    [SerializeField] public float structureRotationAngle;
+
     private void Awake()
     {
         _heldObject = Instantiate(placeableStructure, _mousePos, Quaternion.identity);
@@ -25,15 +30,16 @@ public class BuildingContextController : MonoBehaviour
 
     private void Update()
     {
-        // Update the mouse position at runtime
         _mousePos = Input.mousePosition;
 
         GetPointedEntity(_mousePos);
 
         // Carry the structure at mouse pos
+        // TODO: Change this to accept any structure
         if (_heldObject != null)
         {    
-            _heldObject.transform.position = GetMousePositionToGround();
+            _heldObject.transform.position = 
+                DebugUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
         }
 
         // Input detection
@@ -49,7 +55,10 @@ public class BuildingContextController : MonoBehaviour
             }
         }
 
-
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            _heldObject.transform.Rotate(_heldObject.transform.up, structureRotationAngle);
+        }
     }
 
     #region Structure Placement
@@ -60,7 +69,8 @@ public class BuildingContextController : MonoBehaviour
         {
             if (_heldObject != null)
             {
-                Instantiate(placeableStructure, _mousePos, Quaternion.identity).transform.position = GetMousePositionToGround();
+                Instantiate(placeableStructure, _mousePos, _heldObject.transform.rotation).transform.position = 
+                    DebugUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
                 //_heldObject = null;
             }
             else
@@ -72,24 +82,7 @@ public class BuildingContextController : MonoBehaviour
         {
             Debug.LogWarning("Invalid placement");
         }
-    }
-
-    public Vector3 GetMousePositionToGround()
-    {
-        Vector3 mousePosToGnd = Vector3.zero;
-
-        Ray toGround = _overheadCamera.ScreenPointToRay(_mousePos);
-        RaycastHit toGroundHitInfo;
-
-        if (Physics.Raycast(toGround, out toGroundHitInfo, Mathf.Infinity, ~LayerMask.NameToLayer(terrainLayer)))
-        {
-            mousePosToGnd = toGroundHitInfo.point;
-
-            return mousePosToGnd;
-        }
-
-        else return _mousePos;
-    }
+    }    
 
     public bool IsStructurePlacementLegal()
     {
