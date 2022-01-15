@@ -357,7 +357,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1340
+  m_Name: pb_Mesh-1932
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1038,7 +1038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 3.91
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1046,7 +1046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 3.68
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1084,17 +1084,13 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 935449176}
-    - target: {fileID: 8442940357656229234, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: 097a336f19de8b3409023bae9ba03de1, type: 2}
     - target: {fileID: 8442940357656229236, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 935449176}
     - target: {fileID: 8442940357656229236, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_VersionIndex
-      value: 4804
+      value: 4810
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
@@ -1135,6 +1131,7 @@ MonoBehaviour:
   _heldObject: {fileID: 0}
   _pointedObject: {fileID: 0}
   _selectedObject: {fileID: 0}
+  structureRotationAngle: 45
 --- !u!4 &1814734587
 Transform:
   m_ObjectHideFlags: 0

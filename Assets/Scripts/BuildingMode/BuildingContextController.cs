@@ -65,28 +65,37 @@ public class BuildingContextController : MonoBehaviour
 
     public void PlaceStructure(GameObject structure)
     {
-        if (IsStructurePlacementLegal())
+        if (IsStructurePlacementValid())
         {
             if (_heldObject != null)
             {
                 Instantiate(placeableStructure, _mousePos, _heldObject.transform.rotation).transform.position = 
-                    DebugUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
-                //_heldObject = null;
+                    DebugUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));                
             }
             else
             {
                 Debug.LogError("Object doesn't have the requested component.");
             }            
+        }        
+    }    
+
+    public bool IsStructurePlacementValid()
+    {       
+
+        // Check for invalid overlapping geometry
+        var colliderArray = Physics.OverlapBox(_heldObject.transform.position, _heldObject.transform.localScale / 2, Quaternion.identity, LayerMask.NameToLayer(terrainLayer));
+
+        DebugUtils.LogObjectCollection(colliderArray);
+        
+        if (colliderArray.Length > 0)
+        {
+            DebugUtils.Log("Invalid placement");
+            return false;
         }
         else
         {
-            Debug.LogWarning("Invalid placement");
+            return true;
         }
-    }    
-
-    public bool IsStructurePlacementLegal()
-    {
-        return true;
     }
 
     public void CheckAdjacentSnappingStructures()
