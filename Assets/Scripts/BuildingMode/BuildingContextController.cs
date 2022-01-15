@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using GoonRaccoon.Utils;
+
 using GoonRaccoon.Utils.DebugUtils;
+using GoonRaccoon.Utils.MouseUtils;
 
 public class BuildingContextController : MonoBehaviour
 {
@@ -14,7 +16,7 @@ public class BuildingContextController : MonoBehaviour
     public string terrainLayer = "Terrain";
 
     // Read-only information, do not modify!
-    [Header("Debug Configuration")]
+    [Header("DebugUtils Configuration")]
     [SerializeField] public Vector3 _mousePos;
     [SerializeField] public GameObject _heldObject;
     [SerializeField] public GameObject _pointedObject;
@@ -25,7 +27,7 @@ public class BuildingContextController : MonoBehaviour
 
     private void Awake()
     {
-        _heldObject = Instantiate(placeableStructure, _mousePos, Quaternion.identity);
+        _heldObject = Instantiate(placeableStructure, _mousePos, Quaternion.identity);       
     }
 
     private void Update()
@@ -39,7 +41,7 @@ public class BuildingContextController : MonoBehaviour
         if (_heldObject != null)
         {    
             _heldObject.transform.position = 
-                DebugUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
+                MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
         }
 
         // Input detection
@@ -70,11 +72,11 @@ public class BuildingContextController : MonoBehaviour
             if (_heldObject != null)
             {
                 Instantiate(placeableStructure, _mousePos, _heldObject.transform.rotation).transform.position = 
-                    DebugUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));                
+                    MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));                
             }
             else
             {
-                Debug.LogError("Object doesn't have the requested component.");
+                DebugUtils.LogError("Object doesn't have the requested component.");
             }            
         }        
     }    
@@ -134,7 +136,7 @@ public class BuildingContextController : MonoBehaviour
     {
         if (entity == null)
         {
-            Debug.Log("Nothing detected at pos: " + _mousePos);
+            DebugUtils.Log("Nothing detected at pos: " + _mousePos);
             _selectedObject = null;
 
             return;
