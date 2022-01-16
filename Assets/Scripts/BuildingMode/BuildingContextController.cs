@@ -28,6 +28,9 @@ public class BuildingContextController : MonoBehaviour
     [SerializeField] public bool snapToGrid;
     [SerializeField] public Vector3 gridIncrements;
 
+    // Private variables
+    private bool attachToMouse = true;
+
     private void Awake()
     {
         _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), Quaternion.identity);       
@@ -41,11 +44,13 @@ public class BuildingContextController : MonoBehaviour
 
         // Carry the structure at mouse pos
         // TODO: Change this to accept any structure
-        if (_heldObject != null)
+        if (attachToMouse && _heldObject != null)
         {
             _heldObject.transform.position =
                  MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
         }
+
+        CheckAdjacentSnappingStructures();
 
         // Input detection
         if (Input.GetButtonDown("Fire1"))
@@ -68,6 +73,11 @@ public class BuildingContextController : MonoBehaviour
 
     #region Structure Placement
 
+    public bool IsStructurePlacementValid()
+    {
+        return true;
+    }
+
     public void PlaceStructure(GameObject structure)
     {
         if (IsStructurePlacementValid())
@@ -82,43 +92,50 @@ public class BuildingContextController : MonoBehaviour
                 DebugUtils.LogError("Object doesn't have the requested component.");
             }            
         }        
-    }    
+    }   
 
-    public bool IsStructurePlacementValid()
-    {
-
-        // Check for invalid overlapping geometry
-        //var colliderArray = Physics.OverlapBox(_heldObject.transform.position, _heldObject.transform.localScale / 2, Quaternion.identity, LayerMask.NameToLayer(terrainLayer));
-
-        //DebugUtils.LogObjectCollection(colliderArray);
-
-        //if (colliderArray.Length > 0)
-        //{
-        //    DebugUtils.Log("Invalid placement");
-        //    return false;
-        //}
-        //else
-        //{
-        //    return true;
-        //}
-
-        return true;
-    }
 
     public void CheckAdjacentSnappingStructures()
     {
         // TODO: Find method that relies on proximity/colliders
-        //Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
-        //RaycastHit mouseHitInfo;
+        Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
+        RaycastHit mouseHitInfo;
 
-        //if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, ~LayerMask.NameToLayer("SnapConnectors")))
-        //{            
-        //    if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null)
-        //    {
-        //        var mouseOverStructure = mouseHitInfo.collider.GetComponent<SnapConnector>().parentStructure;
-        //        DebugUtils.Log(mouseOverStructure);
-        //    }
-        //}
+        if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer("SnapConnectors")))
+        {
+            // If we hit a snap point with the mouse and it isn't the current object
+            if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null && mouseHitInfo.transform.root != _heldObject.transform)
+            {
+                DebugUtils.Log("HIT OBJECT: " + mouseHitInfo.collider.GetComponent<SnapConnector>().name);
+
+                attachToMouse = false;
+
+                SnapConnector hitConnector = mouseHitInfo.collider.GetComponent<SnapConnector>();
+                SnapConnector closestConnector = null;
+
+                float closestDistance = Mathf.Infinity;
+
+                // TODO: Extract into a function (utils?)
+                // TODO: Different method: check connector orientations and choose the one with OPPOSITE of target
+                // Find the closest snap point of the held object to the placed object
+                foreach (SnapConnector connector in _heldObject.GetComponent<PlacedStructure>().snapConnectors)
+                {
+                    float checkedDistance = Vector3.Distance(connector.transform.position, hitConnector.transform.position);
+
+                    if (checkedDistance < closestDistance)
+                    {
+                        closestDistance = checkedDistance;
+                        closestConnector = connector;
+                    }
+                }
+
+                // Offset the object
+                Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
+
+                _heldObject.transform.position += connectorOffset;
+            }
+        }
+        attachToMouse = true;
     }
 
     #endregion
