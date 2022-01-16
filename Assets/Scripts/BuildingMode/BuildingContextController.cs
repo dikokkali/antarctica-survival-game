@@ -82,22 +82,24 @@ public class BuildingContextController : MonoBehaviour
     }    
 
     public bool IsStructurePlacementValid()
-    {       
+    {
 
         // Check for invalid overlapping geometry
-        var colliderArray = Physics.OverlapBox(_heldObject.transform.position, _heldObject.transform.localScale / 2, Quaternion.identity, LayerMask.NameToLayer(terrainLayer));
+        //var colliderArray = Physics.OverlapBox(_heldObject.transform.position, _heldObject.transform.localScale / 2, Quaternion.identity, LayerMask.NameToLayer(terrainLayer));
 
-        DebugUtils.LogObjectCollection(colliderArray);
-        
-        if (colliderArray.Length > 0)
-        {
-            DebugUtils.Log("Invalid placement");
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        //DebugUtils.LogObjectCollection(colliderArray);
+
+        //if (colliderArray.Length > 0)
+        //{
+        //    DebugUtils.Log("Invalid placement");
+        //    return false;
+        //}
+        //else
+        //{
+        //    return true;
+        //}
+
+        return true;
     }
 
     public void CheckAdjacentSnappingStructures()
