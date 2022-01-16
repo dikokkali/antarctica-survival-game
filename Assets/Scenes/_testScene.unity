@@ -357,7 +357,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1932
+  m_Name: pb_Mesh-34896
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1038,7 +1038,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.91
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1046,7 +1046,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3.68
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843356, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1132,6 +1132,8 @@ MonoBehaviour:
   _pointedObject: {fileID: 0}
   _selectedObject: {fileID: 0}
   structureRotationAngle: 45
+  snapToGrid: 0
+  gridIncrements: {x: 0.1, y: 0.1, z: 0.1}
 --- !u!4 &1814734587
 Transform:
   m_ObjectHideFlags: 0

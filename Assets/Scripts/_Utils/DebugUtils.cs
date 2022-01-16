@@ -16,7 +16,7 @@ namespace GoonRaccoon.Utils.DebugUtils
             MessagesOnly
         }
 
-        public static LogLevel LoggingLevel { get; set; } = LogLevel.Off;
+        public static LogLevel LoggingLevel { get; set; } = LogLevel.On;
         
 
         #region Debug Messages

@@ -25,9 +25,16 @@ public class BuildingContextController : MonoBehaviour
     [Header("Building Mode Options")]
     [SerializeField] public float structureRotationAngle;
 
+    [SerializeField] public bool snapToGrid;
+    [SerializeField] public Vector3 gridIncrements;
+
     private void Awake()
     {
-        _heldObject = Instantiate(placeableStructure, _mousePos, Quaternion.identity);       
+        float newX = Mathf.Floor(_mousePos.x);
+        float newY = _mousePos.y;
+        float newZ = Mathf.Floor(_mousePos.z);
+
+        _heldObject = Instantiate(placeableStructure, new Vector3(newX, newY, newZ), Quaternion.identity);       
     }
 
     private void Update()
@@ -42,6 +49,12 @@ public class BuildingContextController : MonoBehaviour
         {    
             _heldObject.transform.position = 
                 MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
+
+            float newX = Mathf.Floor(_heldObject.transform.position.x) * 2 - _heldObject.transform.position.x - gridIncrements.x;
+            float newY = _heldObject.transform.position.y;
+            float newZ = Mathf.Floor(_heldObject.transform.position.z) * 2 - _heldObject.transform.position.z - gridIncrements.z;
+
+            _heldObject.transform.position = new Vector3(newX, newY, newZ);
         }
 
         // Input detection
@@ -91,7 +104,7 @@ public class BuildingContextController : MonoBehaviour
         
         if (colliderArray.Length > 0)
         {
-            DebugUtils.Log("Invalid placement");
+            DebugUtils.LogWarning("Invalid placement");
             return false;
         }
         else
