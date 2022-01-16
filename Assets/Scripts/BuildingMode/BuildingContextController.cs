@@ -50,11 +50,11 @@ public class BuildingContextController : MonoBehaviour
             _heldObject.transform.position = 
                 MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
 
-            float newX = Mathf.Floor(_heldObject.transform.position.x) * 2 - _heldObject.transform.position.x - gridIncrements.x;
-            float newY = _heldObject.transform.position.y;
-            float newZ = Mathf.Floor(_heldObject.transform.position.z) * 2 - _heldObject.transform.position.z - gridIncrements.z;
+            //float newX = Mathf.Floor(_heldObject.transform.position.x) * 2 - _heldObject.transform.position.x - gridIncrements.x;
+            //float newY = _heldObject.transform.position.y;
+            //float newZ = Mathf.Floor(_heldObject.transform.position.z) * 2 - _heldObject.transform.position.z - gridIncrements.z;
 
-            _heldObject.transform.position = new Vector3(newX, newY, newZ);
+            //_heldObject.transform.position = new Vector3(newX, newY, newZ);
         }
 
         // Input detection
