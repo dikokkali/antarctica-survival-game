@@ -30,8 +30,6 @@ public class BuildingContextController : MonoBehaviour
 
     private void Awake()
     {
-       
-
         _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), Quaternion.identity);       
     }
 
@@ -44,9 +42,11 @@ public class BuildingContextController : MonoBehaviour
         // Carry the structure at mouse pos
         // TODO: Change this to accept any structure
         if (_heldObject != null)
-        {    
-            _heldObject.transform.position = 
-                MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));         
+        {
+            _heldObject.transform.position =
+                 MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
+
+            Debug.Log(_heldObject.transform.position);
         }
 
         // Input detection
@@ -109,7 +109,18 @@ public class BuildingContextController : MonoBehaviour
 
     public void CheckAdjacentSnappingStructures()
     {
+        // TODO: Find method that relies on proximity/colliders
+        //Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
+        //RaycastHit mouseHitInfo;
 
+        //if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, ~LayerMask.NameToLayer("SnapConnectors")))
+        //{            
+        //    if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null)
+        //    {
+        //        var mouseOverStructure = mouseHitInfo.collider.GetComponent<SnapConnector>().parentStructure;
+        //        DebugUtils.Log(mouseOverStructure);
+        //    }
+        //}
     }
 
     #endregion

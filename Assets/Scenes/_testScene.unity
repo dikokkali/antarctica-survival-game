@@ -357,7 +357,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-34896
+  m_Name: pb_Mesh-1324
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1090,7 +1090,7 @@ PrefabInstance:
       objectReference: {fileID: 935449176}
     - target: {fileID: 8442940357656229236, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_VersionIndex
-      value: 4810
+      value: 4840
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
@@ -1133,7 +1133,7 @@ MonoBehaviour:
   _selectedObject: {fileID: 0}
   structureRotationAngle: 45
   snapToGrid: 0
-  gridIncrements: {x: 0.1, y: 0.1, z: 0.1}
+  gridIncrements: {x: 0, y: 0, z: 0}
 --- !u!4 &1814734587
 Transform:
   m_ObjectHideFlags: 0
