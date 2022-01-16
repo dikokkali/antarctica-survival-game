@@ -25,9 +25,14 @@ public class BuildingContextController : MonoBehaviour
     [Header("Building Mode Options")]
     [SerializeField] public float structureRotationAngle;
 
+    [SerializeField] public bool snapToGrid;
+    [SerializeField] public Vector3 gridIncrements;
+
     private void Awake()
     {
-        _heldObject = Instantiate(placeableStructure, _mousePos, Quaternion.identity);       
+       
+
+        _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), Quaternion.identity);       
     }
 
     private void Update()
@@ -41,7 +46,7 @@ public class BuildingContextController : MonoBehaviour
         if (_heldObject != null)
         {    
             _heldObject.transform.position = 
-                MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
+                MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));         
         }
 
         // Input detection
