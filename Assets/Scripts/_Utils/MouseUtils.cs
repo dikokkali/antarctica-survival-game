@@ -22,9 +22,9 @@ namespace GoonRaccoon.Utils.MouseUtils
             Ray toGround = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit toGroundHitInfo;
 
-            if (Physics.Raycast(toGround, out toGroundHitInfo, Mathf.Infinity, ~layers))
+            if (Physics.Raycast(toGround, out toGroundHitInfo, Mathf.Infinity, 1 << layers))
             {
-                mousePosToGnd = toGroundHitInfo.point;
+                mousePosToGnd = toGroundHitInfo.point;                
 
                 return mousePosToGnd;
             }

@@ -45,8 +45,6 @@ public class BuildingContextController : MonoBehaviour
         {
             _heldObject.transform.position =
                  MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
-
-            Debug.Log(_heldObject.transform.position);
         }
 
         // Input detection

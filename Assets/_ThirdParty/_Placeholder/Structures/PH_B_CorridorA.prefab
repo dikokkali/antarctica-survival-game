@@ -27,8 +27,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 5701956485059178287}
-  - {fileID: 5048045115120546818}
+  - {fileID: 7384366486713263126}
+  - {fileID: 7384366488127992628}
   m_Father: {fileID: 8442940356468843356}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -79,8 +79,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   connectedStructures: []
   snapConnectors:
-  - {fileID: 8788008396078265016}
-  - {fileID: 8131933489775585685}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &8442940357656229247
 GameObject:
   m_ObjectHideFlags: 0
@@ -2368,7 +2368,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 4837
+  m_VersionIndex: 4849
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -2462,7 +2462,73 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
---- !u!1001 &2338714538349551777
+--- !u!1001 &40759477
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1764702695398331553}
+    m_Modifications:
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8439066977370398623, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_Name
+      value: SnapConnector
+      objectReference: {fileID: 0}
+    - target: {fileID: 8439066977370398623, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+--- !u!4 &7384366486713263126 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
+  m_PrefabInstance: {fileID: 40759477}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2039539607
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -2519,92 +2585,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
---- !u!4 &5048045115120546818 stripped
+--- !u!4 &7384366488127992628 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-  m_PrefabInstance: {fileID: 2338714538349551777}
+  m_PrefabInstance: {fileID: 2039539607}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8131933489775585685 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5813766790361172276, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-  m_PrefabInstance: {fileID: 2338714538349551777}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d341ab26ccb3bfd4c9b610d72d5f9729, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1001 &2980222988165970828
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1764702695398331553}
-    m_Modifications:
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8439066977370398623, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-      propertyPath: m_Name
-      value: SnapConnector
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
---- !u!4 &5701956485059178287 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7384366486677755043, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-  m_PrefabInstance: {fileID: 2980222988165970828}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &8788008396078265016 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5813766790361172276, guid: fd73eeb82cdbe514db949114ac47ba0c, type: 3}
-  m_PrefabInstance: {fileID: 2980222988165970828}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d341ab26ccb3bfd4c9b610d72d5f9729, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

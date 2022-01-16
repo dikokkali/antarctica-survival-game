@@ -1028,6 +1028,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8439066977398009642, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8439066978017392648, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8442940356468843355, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_Name
       value: PH_B_CorridorA
@@ -1090,7 +1098,7 @@ PrefabInstance:
       objectReference: {fileID: 935449176}
     - target: {fileID: 8442940357656229236, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
       propertyPath: m_VersionIndex
-      value: 4840
+      value: 4852
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 250721a09a9650c4e8b8d1a81e983621, type: 3}
