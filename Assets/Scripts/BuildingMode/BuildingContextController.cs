@@ -16,11 +16,13 @@ public class BuildingContextController : MonoBehaviour
     public string terrainLayer = "Terrain";
 
     // Read-only information, do not modify!
-    [Header("DebugUtils Configuration")]
+    [Header("Debug Configuration")]
     [SerializeField] public Vector3 _mousePos;
     [SerializeField] public GameObject _heldObject;
     [SerializeField] public GameObject _pointedObject;
     [SerializeField] public GameObject _selectedObject;
+
+    [SerializeField] public Material buildingModeMaterial;
 
     [Header("Building Mode Options")]
     [SerializeField] public float structureRotationAngle;
@@ -30,17 +32,23 @@ public class BuildingContextController : MonoBehaviour
 
     // Private variables
     private bool attachToMouse = true;
+    private Material originalMaterial = null;
 
     private void Awake()
     {
-        _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), Quaternion.identity);       
+        _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), Quaternion.identity);
+
+        originalMaterial = _heldObject.GetComponentInChildren<Renderer>().material;
+
+        _heldObject.GetComponentInChildren<Renderer>().material = buildingModeMaterial;
+
     }
 
     private void Update()
     {
         _mousePos = Input.mousePosition;
 
-        GetPointedEntity(_mousePos);
+        //GetPointedEntity(_mousePos);
 
         // Carry the structure at mouse pos
         // TODO: Change this to accept any structure
@@ -129,13 +137,33 @@ public class BuildingContextController : MonoBehaviour
                     }
                 }
 
+                // Orient the object
+                float angleBetweenPivotAndConnector = Vector3.Angle(hitConnector.transform.forward, _heldObject.transform.forward);
+                Vector3 anglePolarity = Vector3.Cross( _heldObject.transform.forward, -hitConnector.transform.forward);
+
+                DebugUtils.Log("Angle: " + angleBetweenPivotAndConnector);
+                DebugUtils.Log("Polarity: " + anglePolarity);
+
+                // TODO: This method won't work for structures where the pivot/connectors aren't perp. or parallel!                
+                if (anglePolarity.y > 0)
+                {
+                    _heldObject.transform.Rotate(_heldObject.transform.up, -angleBetweenPivotAndConnector);
+                }
+                else if (anglePolarity.y < 0)
+                {
+                    _heldObject.transform.Rotate(_heldObject.transform.up, angleBetweenPivotAndConnector);
+                }
                 // Offset the object
                 Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
 
                 _heldObject.transform.position += connectorOffset;
             }
         }
-        attachToMouse = true;
+        else
+        {
+            attachToMouse = true;
+        }
+        
     }
 
     #endregion
