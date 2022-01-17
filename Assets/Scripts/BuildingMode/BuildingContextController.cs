@@ -32,6 +32,7 @@ public class BuildingContextController : MonoBehaviour
 
     // Private variables
     private bool attachToMouse = true;
+    private Vector3 snapPosition = Vector3.zero;
     private Material originalMaterial = null;
 
     private void Awake()
@@ -56,6 +57,8 @@ public class BuildingContextController : MonoBehaviour
         {
             _heldObject.transform.position =
                  MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
+
+            snapPosition = MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
         }
 
         CheckAdjacentSnappingStructures();
@@ -69,7 +72,7 @@ public class BuildingContextController : MonoBehaviour
             }
             else
             {
-                PlaceStructure(_heldObject);
+                PlaceStructure(_heldObject, snapPosition);
             }
         }
 
@@ -86,14 +89,14 @@ public class BuildingContextController : MonoBehaviour
         return true;
     }
 
-    public void PlaceStructure(GameObject structure)
+    public void PlaceStructure(GameObject structure, Vector3 pos)
     {
         if (IsStructurePlacementValid())
         {
             if (_heldObject != null)
             {
-                Instantiate(placeableStructure, _mousePos, _heldObject.transform.rotation).transform.position = 
-                    MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));                
+                Instantiate(placeableStructure, _mousePos, _heldObject.transform.rotation)
+                    .transform.position = snapPosition;
             }
             else
             {
@@ -121,42 +124,21 @@ public class BuildingContextController : MonoBehaviour
                 SnapConnector hitConnector = mouseHitInfo.collider.GetComponent<SnapConnector>();
                 SnapConnector closestConnector = null;
 
-                float closestDistance = Mathf.Infinity;
-
-                // TODO: Extract into a function (utils?)
-                // TODO: Different method: check connector orientations and choose the one with OPPOSITE of target
-                // Find the closest snap point of the held object to the placed object
-                foreach (SnapConnector connector in _heldObject.GetComponent<PlacedStructure>().snapConnectors)
+                // Find the held connector with opposite direction vector
+                foreach (var connector in _heldObject.GetComponent<PlacedStructure>().snapConnectors)
                 {
-                    float checkedDistance = Vector3.Distance(connector.transform.position, hitConnector.transform.position);
-
-                    if (checkedDistance < closestDistance)
+                    if (Mathf.Approximately(Vector3.Angle(connector.transform.forward, hitConnector.transform.forward), 180f))
                     {
-                        closestDistance = checkedDistance;
+                        DebugUtils.Log("FOUND" + connector.transform.name);
                         closestConnector = connector;
                     }
                 }
-
-                // Orient the object
-                float angleBetweenPivotAndConnector = Vector3.Angle(hitConnector.transform.forward, _heldObject.transform.forward);
-                Vector3 anglePolarity = Vector3.Cross( _heldObject.transform.forward, -hitConnector.transform.forward);
-
-                DebugUtils.Log("Angle: " + angleBetweenPivotAndConnector);
-                DebugUtils.Log("Polarity: " + anglePolarity);
-
-                // TODO: This method won't work for structures where the pivot/connectors aren't perp. or parallel!                
-                if (anglePolarity.y > 0)
-                {
-                    _heldObject.transform.Rotate(_heldObject.transform.up, -angleBetweenPivotAndConnector);
-                }
-                else if (anglePolarity.y < 0)
-                {
-                    _heldObject.transform.Rotate(_heldObject.transform.up, angleBetweenPivotAndConnector);
-                }
-                // Offset the object
+                
                 Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
 
+                // Offset the structure and update the correct snapPosition
                 _heldObject.transform.position += connectorOffset;
+                snapPosition = _heldObject.transform.position;
             }
         }
         else
