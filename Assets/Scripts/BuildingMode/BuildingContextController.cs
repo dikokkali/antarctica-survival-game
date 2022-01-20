@@ -37,7 +37,7 @@ public class BuildingContextController : MonoBehaviour
 
     private void Awake()
     {
-        _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), Quaternion.identity);
+        _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), placeableStructure.transform.rotation);
 
         originalMaterial = _heldObject.GetComponentInChildren<Renderer>().material;
 
@@ -114,12 +114,11 @@ public class BuildingContextController : MonoBehaviour
 
         if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer("SnapConnectors")))
         {
-            // If we hit a snap point with the mouse and it isn't the current object
+            // If we hit a snap point with the mouse and it isn't the current object's snap transform
             if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null && mouseHitInfo.transform.root != _heldObject.transform)
-            {
+            {     
+                
                 DebugUtils.Log("HIT OBJECT: " + mouseHitInfo.collider.GetComponent<SnapConnector>().name);
-
-                attachToMouse = false;
 
                 SnapConnector hitConnector = mouseHitInfo.collider.GetComponent<SnapConnector>();
                 SnapConnector closestConnector = null;
@@ -133,12 +132,17 @@ public class BuildingContextController : MonoBehaviour
                         closestConnector = connector;
                     }
                 }
-                
-                Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
 
-                // Offset the structure and update the correct snapPosition
-                _heldObject.transform.position += connectorOffset;
-                snapPosition = _heldObject.transform.position;
+                if (closestConnector != null)
+                {
+                    attachToMouse = false;
+
+                    Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
+
+                    // Offset the structure and update the correct snapPosition
+                    _heldObject.transform.position += connectorOffset;
+                    snapPosition = _heldObject.transform.position;
+                }
             }
         }
         else
