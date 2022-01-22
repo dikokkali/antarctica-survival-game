@@ -137,6 +137,7 @@ public class BuildingContextController : MonoBehaviour
                 {
                     attachToMouse = false;
 
+
                     Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
 
                     // Offset the structure and update the correct snapPosition
@@ -150,6 +151,22 @@ public class BuildingContextController : MonoBehaviour
             attachToMouse = true;
         }
         
+
+    public void CheckAdjacentSnappingStructures()
+    {
+        // TODO: Find method that relies on proximity/colliders
+        Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
+        RaycastHit mouseHitInfo;
+
+        if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer("SnapConnectors")))
+        {
+            if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null)
+            {
+                var mouseOverStructure = mouseHitInfo.collider.GetComponent<SnapConnector>().parentStructure;
+                DebugUtils.Log(mouseOverStructure);
+            }
+        }
+
     }
 
     #endregion
