@@ -16,11 +16,13 @@ public class BuildingContextController : MonoBehaviour
     public string terrainLayer = "Terrain";
 
     // Read-only information, do not modify!
-    [Header("DebugUtils Configuration")]
+    [Header("Debug Configuration")]
     [SerializeField] public Vector3 _mousePos;
     [SerializeField] public GameObject _heldObject;
     [SerializeField] public GameObject _pointedObject;
     [SerializeField] public GameObject _selectedObject;
+
+    [SerializeField] public Material buildingModeMaterial;
 
     [Header("Building Mode Options")]
     [SerializeField] public float structureRotationAngle;
@@ -28,23 +30,35 @@ public class BuildingContextController : MonoBehaviour
     [SerializeField] public bool snapToGrid;
     [SerializeField] public Vector3 gridIncrements;
 
+    // Private variables
+    private bool attachToMouse = true;
+    private Vector3 snapPosition = Vector3.zero;
+    private Material originalMaterial = null;
+
     private void Awake()
     {
-        _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), Quaternion.identity);       
+        _heldObject = Instantiate(placeableStructure, new Vector3(_mousePos.x, _mousePos.y, _mousePos.z), placeableStructure.transform.rotation);
+
+        originalMaterial = _heldObject.GetComponentInChildren<Renderer>().material;
+
+        _heldObject.GetComponentInChildren<Renderer>().material = buildingModeMaterial;
+
     }
 
     private void Update()
     {
         _mousePos = Input.mousePosition;
 
-        GetPointedEntity(_mousePos);
+        //GetPointedEntity(_mousePos);
 
         // Carry the structure at mouse pos
         // TODO: Change this to accept any structure
-        if (_heldObject != null)
+        if (attachToMouse && _heldObject != null)
         {
             _heldObject.transform.position =
                  MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
+
+            snapPosition = MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
         }
 
         CheckAdjacentSnappingStructures();
@@ -58,7 +72,7 @@ public class BuildingContextController : MonoBehaviour
             }
             else
             {
-                PlaceStructure(_heldObject);
+                PlaceStructure(_heldObject, snapPosition);
             }
         }
 
@@ -70,42 +84,73 @@ public class BuildingContextController : MonoBehaviour
 
     #region Structure Placement
 
-    public void PlaceStructure(GameObject structure)
+    public bool IsStructurePlacementValid()
+    {
+        return true;
+    }
+
+    public void PlaceStructure(GameObject structure, Vector3 pos)
     {
         if (IsStructurePlacementValid())
         {
             if (_heldObject != null)
             {
-                Instantiate(placeableStructure, _mousePos, _heldObject.transform.rotation).transform.position = 
-                    MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));                
+                Instantiate(placeableStructure, _mousePos, _heldObject.transform.rotation)
+                    .transform.position = snapPosition;
             }
             else
             {
                 DebugUtils.LogError("Object doesn't have the requested component.");
             }            
         }        
-    }    
+    }   
 
-    public bool IsStructurePlacementValid()
+
+    public void CheckAdjacentSnappingStructures()
     {
+        // TODO: Find method that relies on proximity/colliders
+        Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
+        RaycastHit mouseHitInfo;
 
-        // Check for invalid overlapping geometry
-        //var colliderArray = Physics.OverlapBox(_heldObject.transform.position, _heldObject.transform.localScale / 2, Quaternion.identity, LayerMask.NameToLayer(terrainLayer));
+        if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer("SnapConnectors")))
+        {
+            // If we hit a snap point with the mouse and it isn't the current object's snap transform
+            if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null && mouseHitInfo.transform.root != _heldObject.transform)
+            {     
+                
+                DebugUtils.Log("HIT OBJECT: " + mouseHitInfo.collider.GetComponent<SnapConnector>().name);
 
-        //DebugUtils.LogObjectCollection(colliderArray);
+                SnapConnector hitConnector = mouseHitInfo.collider.GetComponent<SnapConnector>();
+                SnapConnector closestConnector = null;
 
-        //if (colliderArray.Length > 0)
-        //{
-        //    DebugUtils.Log("Invalid placement");
-        //    return false;
-        //}
-        //else
-        //{
-        //    return true;
-        //}
+                // Find the held connector with opposite direction vector
+                foreach (var connector in _heldObject.GetComponent<PlacedStructure>().snapConnectors)
+                {
+                    if (Mathf.Approximately(Vector3.Angle(connector.transform.forward, hitConnector.transform.forward), 180f))
+                    {
+                        DebugUtils.Log("FOUND" + connector.transform.name);
+                        closestConnector = connector;
+                    }
+                }
 
-        return true;
-    }
+                if (closestConnector != null)
+                {
+                    attachToMouse = false;
+
+
+                    Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
+
+                    // Offset the structure and update the correct snapPosition
+                    _heldObject.transform.position += connectorOffset;
+                    snapPosition = _heldObject.transform.position;
+                }
+            }
+        }
+        else
+        {
+            attachToMouse = true;
+        }
+        
 
     public void CheckAdjacentSnappingStructures()
     {
@@ -121,6 +166,7 @@ public class BuildingContextController : MonoBehaviour
                 DebugUtils.Log(mouseOverStructure);
             }
         }
+
     }
 
     #endregion
