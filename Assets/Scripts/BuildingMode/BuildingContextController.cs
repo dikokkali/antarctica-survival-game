@@ -42,7 +42,6 @@ public class BuildingContextController : MonoBehaviour
         originalMaterial = _heldObject.GetComponentInChildren<Renderer>().material;
 
         _heldObject.GetComponentInChildren<Renderer>().material = buildingModeMaterial;
-
     }
 
     private void Update()
@@ -103,7 +102,7 @@ public class BuildingContextController : MonoBehaviour
                 DebugUtils.LogError("Object doesn't have the requested component.");
             }            
         }        
-    }   
+    }
 
 
     public void CheckAdjacentSnappingStructures()
@@ -116,8 +115,8 @@ public class BuildingContextController : MonoBehaviour
         {
             // If we hit a snap point with the mouse and it isn't the current object's snap transform
             if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null && mouseHitInfo.transform.root != _heldObject.transform)
-            {     
-                
+            {
+
                 DebugUtils.Log("HIT OBJECT: " + mouseHitInfo.collider.GetComponent<SnapConnector>().name);
 
                 SnapConnector hitConnector = mouseHitInfo.collider.GetComponent<SnapConnector>();
@@ -137,7 +136,6 @@ public class BuildingContextController : MonoBehaviour
                 {
                     attachToMouse = false;
 
-
                     Vector3 connectorOffset = hitConnector.transform.position - closestConnector.transform.position;
 
                     // Offset the structure and update the correct snapPosition
@@ -149,67 +147,49 @@ public class BuildingContextController : MonoBehaviour
         else
         {
             attachToMouse = true;
-        }
-        
+        }       
+    }
+        #endregion
 
-    public void CheckAdjacentSnappingStructures()
-    {
-        // TODO: Find method that relies on proximity/colliders
-        Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
-        RaycastHit mouseHitInfo;
-
-        if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer("SnapConnectors")))
+        #region Placement Information
+        public void GetPointedEntity(Vector3 mousePos, bool buildableOnly = false)
         {
-            if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null)
+            if (!buildableOnly)
             {
-                var mouseOverStructure = mouseHitInfo.collider.GetComponent<SnapConnector>().parentStructure;
-                DebugUtils.Log(mouseOverStructure);
+                Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
+                RaycastHit mouseHitInfo;
+
+                if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, LayerMask.NameToLayer(validBuildingContextLayers)))
+                {
+                    // If the object is composite, always get the parent
+                    _pointedObject = mouseHitInfo.collider.gameObject;
+
+                    if (_pointedObject.transform.parent != null)
+                    {
+                        _pointedObject = _pointedObject.transform.parent.gameObject;
+                    }
+                }
+                else
+                {
+                    _pointedObject = null;
+                }
             }
         }
 
-    }
-
-    #endregion
-
-    #region Placement Information
-    public void GetPointedEntity(Vector3 mousePos, bool buildableOnly = false)
-    {
-        if (!buildableOnly)
+        public void SelectPointedEntity(GameObject entity)
         {
-            Ray mouseOverRay =_overheadCamera.ScreenPointToRay(_mousePos);
-            RaycastHit mouseHitInfo;
-
-            if (Physics.Raycast(mouseOverRay,out mouseHitInfo, Mathf.Infinity, LayerMask.NameToLayer(validBuildingContextLayers)))
+            if (entity == null)
             {
-                // If the object is composite, always get the parent
-                _pointedObject = mouseHitInfo.collider.gameObject;
+                DebugUtils.Log("Nothing detected at pos: " + _mousePos);
+                _selectedObject = null;
 
-                if (_pointedObject.transform.parent != null)
-                {
-                    _pointedObject = _pointedObject.transform.parent.gameObject;
-                }
+                return;
             }
             else
             {
-                _pointedObject = null;
+                _selectedObject = entity;
             }
         }
+        #endregion
     }
 
-    public void SelectPointedEntity(GameObject entity)
-    {
-        if (entity == null)
-        {
-            DebugUtils.Log("Nothing detected at pos: " + _mousePos);
-            _selectedObject = null;
-
-            return;
-        }
-        else
-        {
-            _selectedObject = entity;
-        }
-    }
-    #endregion
-
-}
