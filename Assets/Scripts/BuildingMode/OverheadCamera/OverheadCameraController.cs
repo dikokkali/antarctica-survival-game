@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
 
+// TODO: Add movement/zoom clamping
 public class OverheadCameraController : MonoBehaviour
 {
     private CinemachineVirtualCamera _overheadCamera;
