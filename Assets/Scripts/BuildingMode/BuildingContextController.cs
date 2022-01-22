@@ -47,6 +47,8 @@ public class BuildingContextController : MonoBehaviour
                  MouseUtils.GetMousePositionToGround(_overheadCamera, LayerMask.NameToLayer(terrainLayer));
         }
 
+        CheckAdjacentSnappingStructures();
+
         // Input detection
         if (Input.GetButtonDown("Fire1"))
         {
@@ -108,17 +110,17 @@ public class BuildingContextController : MonoBehaviour
     public void CheckAdjacentSnappingStructures()
     {
         // TODO: Find method that relies on proximity/colliders
-        //Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
-        //RaycastHit mouseHitInfo;
+        Ray mouseOverRay = _overheadCamera.ScreenPointToRay(_mousePos);
+        RaycastHit mouseHitInfo;
 
-        //if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, ~LayerMask.NameToLayer("SnapConnectors")))
-        //{            
-        //    if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null)
-        //    {
-        //        var mouseOverStructure = mouseHitInfo.collider.GetComponent<SnapConnector>().parentStructure;
-        //        DebugUtils.Log(mouseOverStructure);
-        //    }
-        //}
+        if (Physics.Raycast(mouseOverRay, out mouseHitInfo, Mathf.Infinity, 1 << LayerMask.NameToLayer("SnapConnectors")))
+        {
+            if (mouseHitInfo.collider.GetComponent<SnapConnector>() != null)
+            {
+                var mouseOverStructure = mouseHitInfo.collider.GetComponent<SnapConnector>().parentStructure;
+                DebugUtils.Log(mouseOverStructure);
+            }
+        }
     }
 
     #endregion
