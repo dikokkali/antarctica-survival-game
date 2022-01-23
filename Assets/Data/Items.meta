@@ -1,8 +1,7 @@
 fileFormatVersion: 2
-guid: 4cb5e1d92d4f9c1428a3988d3256a437
-labels:
-- Weapon
-PrefabImporter:
+guid: 7e9b30e380a9d57449c7a5c598f17bf2
+folderAsset: yes
+DefaultImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
