@@ -1,4 +1,5 @@
 using GoonRaccoon.Utils.DebugUtils;
+using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,8 +7,9 @@ using UnityEngine;
 public class WeaponController : MonoBehaviour
 {
     [SerializeField] public Weapon _weaponData;
-    [SerializeField] private Camera _playerFPSCamera;
+    [SerializeField] private GameObject _playerFPSCamera;
     [SerializeField] private GameObject _muzzleFlash;
+    [SerializeField] private GameObject _bulletImpact;
 
     private float _fireRate;
     private float _baseDamage;
@@ -16,7 +18,11 @@ public class WeaponController : MonoBehaviour
     private float _maxRange;
 
     private float lastShotTime = 0f;
+    private ParticleSystem _muzzleFlashParticleSystem;
     private WeaponState weaponState;
+
+    [Header("Configurable Properties")]
+    public float muzzleFlashDuration;
 
     public enum WeaponState
     {
@@ -30,6 +36,9 @@ public class WeaponController : MonoBehaviour
         lastShotTime = Time.time;
         weaponState = WeaponState.Weapon_Idle;
 
+        _muzzleFlashParticleSystem = _muzzleFlash.GetComponent<ParticleSystem>();
+        //_playerFPSCamera = GetComponentInParent<Camera>();
+
         // Initialize weapon data refs
         _fireRate = _weaponData.fireRate;
         _baseDamage = _weaponData.baseDamage;
@@ -42,7 +51,7 @@ public class WeaponController : MonoBehaviour
     {
         Debug.DrawRay(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward * 100f, Color.red);
 
-        if (Input.GetButton("Fire1"))
+        if (Input.GetButtonDown("Fire1"))
         {
             FireWeapon();
         }
@@ -52,6 +61,8 @@ public class WeaponController : MonoBehaviour
     {
         if (Time.time - lastShotTime >= 1 / _fireRate)
         {
+            lastShotTime = Time.time;
+
             StartCoroutine(nameof(ActivateWeaponEffects));
 
             Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
@@ -59,24 +70,23 @@ public class WeaponController : MonoBehaviour
 
             if (Physics.Raycast(bulletRay, out bulletHit, _maxRange))
             {
-                
+                Vector3 impactPoint = bulletHit.point;
+
+                GameObject impact = Instantiate(_bulletImpact, impactPoint, Quaternion.LookRotation(bulletHit.normal));
+                Destroy(impact, 2f);
             }
-        }
-        else
-        {
-            StopCoroutine(nameof(ActivateWeaponEffects));
-        }
+        }      
     }
 
     private IEnumerator ActivateWeaponEffects()
     {
         _muzzleFlash.SetActive(true);
+        _muzzleFlashParticleSystem.Play();
 
-        yield return new WaitForSeconds(1 / _fireRate);
+        yield return new WaitForSeconds(muzzleFlashDuration);
 
+        _muzzleFlashParticleSystem.Stop();
         _muzzleFlash.SetActive(false);
-
-        //StopCoroutine(nameof(ActivateWeaponEffects));
     }
 
 }
