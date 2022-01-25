@@ -3,6 +3,7 @@ using NaughtyAttributes;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class WeaponController : MonoBehaviour
     private float lastShotTime = 0f;
     private ParticleSystem _muzzleFlashParticleSystem;
     private WeaponState weaponState;
+
+    // Input actions
+    InputAction fireAction;    
 
     [Header("Configurable Properties")]
     public float muzzleFlashDuration;

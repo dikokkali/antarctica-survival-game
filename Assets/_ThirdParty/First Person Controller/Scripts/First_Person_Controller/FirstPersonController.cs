@@ -53,7 +53,7 @@ namespace VHS
                     [SerializeField] private float gravityMultiplier = 2.5f;
                     [SerializeField] private float stickToGroundForce = 5f;
                     
-                    [SerializeField] private LayerMask groundLayer = ~0;
+                    [SerializeField] private LayerMask groundLayer = ~3;
                     [Slider(0f,1f)][SerializeField] private float rayLength = 0.1f;
                     [Slider(0.01f,1f)][SerializeField] private float raySphereRadius = 0.1f;
                 #endregion
