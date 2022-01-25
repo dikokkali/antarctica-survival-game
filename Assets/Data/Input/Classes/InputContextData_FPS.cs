@@ -20,7 +20,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Movement"",
-                    ""type"": ""Value"",
+                    ""type"": ""PassThrough"",
                     ""id"": ""035e8ca1-b085-46e7-9773-489ec87b500f"",
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
@@ -57,6 +57,22 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""Look"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""46e9e5d0-2594-4004-a335-92a9f372b09c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""a98f6d7e-c6bc-4b1c-9cb1-710a849228ef"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -158,6 +174,28 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f92b507e-e4fb-4100-b601-41c86460bc8b"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""47c8c569-dc2b-4d0d-8162-88bfb3524f6d"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -183,6 +221,8 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         m_FPSControls_UseEquippedFireWeapon = m_FPSControls.FindAction("Use Equipped/Fire Weapon", throwIfNotFound: true);
         m_FPSControls_AlternateAction = m_FPSControls.FindAction("Alternate Action", throwIfNotFound: true);
         m_FPSControls_Run = m_FPSControls.FindAction("Run", throwIfNotFound: true);
+        m_FPSControls_Look = m_FPSControls.FindAction("Look", throwIfNotFound: true);
+        m_FPSControls_Crouch = m_FPSControls.FindAction("Crouch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -237,6 +277,8 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
     private readonly InputAction m_FPSControls_UseEquippedFireWeapon;
     private readonly InputAction m_FPSControls_AlternateAction;
     private readonly InputAction m_FPSControls_Run;
+    private readonly InputAction m_FPSControls_Look;
+    private readonly InputAction m_FPSControls_Crouch;
     public struct FPSControlsActions
     {
         private @InputContextData_FPS m_Wrapper;
@@ -246,6 +288,8 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         public InputAction @UseEquippedFireWeapon => m_Wrapper.m_FPSControls_UseEquippedFireWeapon;
         public InputAction @AlternateAction => m_Wrapper.m_FPSControls_AlternateAction;
         public InputAction @Run => m_Wrapper.m_FPSControls_Run;
+        public InputAction @Look => m_Wrapper.m_FPSControls_Look;
+        public InputAction @Crouch => m_Wrapper.m_FPSControls_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_FPSControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -270,6 +314,12 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @Run.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnRun;
                 @Run.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnRun;
                 @Run.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnRun;
+                @Look.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnLook;
+                @Look.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnLook;
+                @Look.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnLook;
+                @Crouch.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnCrouch;
             }
             m_Wrapper.m_FPSControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -289,6 +339,12 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @Run.started += instance.OnRun;
                 @Run.performed += instance.OnRun;
                 @Run.canceled += instance.OnRun;
+                @Look.started += instance.OnLook;
+                @Look.performed += instance.OnLook;
+                @Look.canceled += instance.OnLook;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
             }
         }
     }
@@ -309,5 +365,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         void OnUseEquippedFireWeapon(InputAction.CallbackContext context);
         void OnAlternateAction(InputAction.CallbackContext context);
         void OnRun(InputAction.CallbackContext context);
+        void OnLook(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
     }
 }

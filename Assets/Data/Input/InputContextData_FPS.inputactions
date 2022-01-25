@@ -7,7 +7,7 @@
             "actions": [
                 {
                     "name": "Movement",
-                    "type": "Value",
+                    "type": "PassThrough",
                     "id": "035e8ca1-b085-46e7-9773-489ec87b500f",
                     "expectedControlType": "Vector2",
                     "processors": "",
@@ -44,6 +44,22 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Hold"
+                },
+                {
+                    "name": "Look",
+                    "type": "PassThrough",
+                    "id": "46e9e5d0-2594-4004-a335-92a9f372b09c",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Crouch",
+                    "type": "Button",
+                    "id": "a98f6d7e-c6bc-4b1c-9cb1-710a849228ef",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -143,6 +159,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Run",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f92b507e-e4fb-4100-b601-41c86460bc8b",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Look",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "47c8c569-dc2b-4d0d-8162-88bfb3524f6d",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Crouch",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
