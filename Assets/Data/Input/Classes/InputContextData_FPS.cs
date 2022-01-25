@@ -73,6 +73,14 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Open Inventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""25661312-e1cc-4024-b4ea-666ad2de34f4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -196,23 +204,22 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""action"": ""Crouch"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f7eec5b2-73b2-4d39-98ab-c2c5c683faee"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Open Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
     ],
-    ""controlSchemes"": [
-        {
-            ""name"": ""New control scheme"",
-            ""bindingGroup"": ""New control scheme"",
-            ""devices"": [
-                {
-                    ""devicePath"": ""<Keyboard>"",
-                    ""isOptional"": false,
-                    ""isOR"": false
-                }
-            ]
-        }
-    ]
+    ""controlSchemes"": []
 }");
         // FPSControls
         m_FPSControls = asset.FindActionMap("FPSControls", throwIfNotFound: true);
@@ -223,6 +230,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         m_FPSControls_Run = m_FPSControls.FindAction("Run", throwIfNotFound: true);
         m_FPSControls_Look = m_FPSControls.FindAction("Look", throwIfNotFound: true);
         m_FPSControls_Crouch = m_FPSControls.FindAction("Crouch", throwIfNotFound: true);
+        m_FPSControls_OpenInventory = m_FPSControls.FindAction("Open Inventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -279,6 +287,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
     private readonly InputAction m_FPSControls_Run;
     private readonly InputAction m_FPSControls_Look;
     private readonly InputAction m_FPSControls_Crouch;
+    private readonly InputAction m_FPSControls_OpenInventory;
     public struct FPSControlsActions
     {
         private @InputContextData_FPS m_Wrapper;
@@ -290,6 +299,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         public InputAction @Run => m_Wrapper.m_FPSControls_Run;
         public InputAction @Look => m_Wrapper.m_FPSControls_Look;
         public InputAction @Crouch => m_Wrapper.m_FPSControls_Crouch;
+        public InputAction @OpenInventory => m_Wrapper.m_FPSControls_OpenInventory;
         public InputActionMap Get() { return m_Wrapper.m_FPSControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -320,6 +330,9 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @Crouch.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnCrouch;
                 @Crouch.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnCrouch;
                 @Crouch.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnCrouch;
+                @OpenInventory.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnOpenInventory;
+                @OpenInventory.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnOpenInventory;
+                @OpenInventory.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnOpenInventory;
             }
             m_Wrapper.m_FPSControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -345,19 +358,13 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @Crouch.started += instance.OnCrouch;
                 @Crouch.performed += instance.OnCrouch;
                 @Crouch.canceled += instance.OnCrouch;
+                @OpenInventory.started += instance.OnOpenInventory;
+                @OpenInventory.performed += instance.OnOpenInventory;
+                @OpenInventory.canceled += instance.OnOpenInventory;
             }
         }
     }
     public FPSControlsActions @FPSControls => new FPSControlsActions(this);
-    private int m_NewcontrolschemeSchemeIndex = -1;
-    public InputControlScheme NewcontrolschemeScheme
-    {
-        get
-        {
-            if (m_NewcontrolschemeSchemeIndex == -1) m_NewcontrolschemeSchemeIndex = asset.FindControlSchemeIndex("New control scheme");
-            return asset.controlSchemes[m_NewcontrolschemeSchemeIndex];
-        }
-    }
     public interface IFPSControlsActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -367,5 +374,6 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         void OnRun(InputAction.CallbackContext context);
         void OnLook(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
+        void OnOpenInventory(InputAction.CallbackContext context);
     }
 }

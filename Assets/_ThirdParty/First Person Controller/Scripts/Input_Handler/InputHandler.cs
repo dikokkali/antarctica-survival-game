@@ -32,6 +32,7 @@ namespace VHS
             lookAction = fpsContextData.FPSControls.Look;
             runAction = fpsContextData.FPSControls.Run;
             jumpAction = fpsContextData.FPSControls.Jump;
+            crouchAction = fpsContextData.FPSControls.Crouch;
         }
 
         private void OnEnable()
@@ -56,8 +57,8 @@ namespace VHS
             jumpAction.performed += e => movementInputData.JumpClicked = true;
             jumpAction.canceled += e => movementInputData.JumpClicked = false;
 
-            crouchAction.performed += e => movementInputData.CrouchClicked = true;
-            crouchAction.canceled += e => movementInputData.CrouchClicked = false;
+            //crouchAction.performed += e => movementInputData.CrouchClicked = true;
+            //crouchAction.canceled += e => movementInputData.CrouchClicked = false;
         }
 
         private void OnDisable()
@@ -96,9 +97,6 @@ namespace VHS
             Vector2 inputVector = lookAction.ReadValue<Vector2>() * 0.5f * 0.1f;
             cameraInputData.InputVectorX = Mouse.current.delta.x.ReadValue();
             cameraInputData.InputVectorY = Mouse.current.delta.y.ReadValue();
-
-            //cameraInputData.ZoomClicked = Input.GetMouseButtonDown(1);
-            //cameraInputData.ZoomReleased = Input.GetMouseButtonUp(1);
         }
 
         void GetMovementInputData()
@@ -111,8 +109,6 @@ namespace VHS
 
             if (movementInputData.RunReleased)
                 movementInputData.IsRunning = false;
-
-            //movementInputData.CrouchClicked = Input.GetKeyDown(KeyCode.LeftControl);
         }
         #endregion
 
