@@ -23,6 +23,7 @@ public class WeaponController : MonoBehaviour
     private WeaponState weaponState;
 
     // Input actions
+    InputContextData_FPS fpsContextData;
     InputAction fireAction;    
 
     [Header("Configurable Properties")]
@@ -37,6 +38,10 @@ public class WeaponController : MonoBehaviour
 
     private void Awake()
     {
+        // Input
+        fpsContextData = new InputContextData_FPS();
+        fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
+
         lastShotTime = Time.time;
         weaponState = WeaponState.Weapon_Idle;
 
@@ -51,14 +56,23 @@ public class WeaponController : MonoBehaviour
         _maxRange = _weaponData.maxRange;
     }
 
+    private void OnEnable()
+    {
+        fpsContextData.FPSControls.Enable();
+
+        fireAction.performed += e => FireWeapon();
+    }
+
+    private void OnDisable()
+    {
+        fpsContextData.FPSControls.Disable();
+
+        fireAction.performed -= e => FireWeapon();
+    }
+
     private void Update()
     {
-        Debug.DrawRay(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward * 100f, Color.red);
-
-        if (Input.GetButtonDown("Fire1"))
-        {
-            FireWeapon();
-        }
+        
     }
 
     private void FireWeapon()
