@@ -20,6 +20,8 @@ public class WeaponController : MonoBehaviour
 
     private float lastShotTime = 0f;
     private bool canFire = false;
+    private bool isReloading = false;
+
     private ParticleSystem _muzzleFlashParticleSystem;
 
     // Input actions
@@ -59,7 +61,7 @@ public class WeaponController : MonoBehaviour
         fireAction.performed += e => canFire = true;
         fireAction.canceled += e => canFire = false;
 
-        reloadAction.performed += e => ReloadWeapon();
+        reloadAction.performed += e => StartCoroutine(ReloadWeapon());
     }
 
     private void OnDisable()
@@ -69,12 +71,12 @@ public class WeaponController : MonoBehaviour
         fireAction.performed -= e => canFire = true;
         fireAction.canceled -= e => canFire = false;
 
-        reloadAction.performed -= e => ReloadWeapon();
+        reloadAction.performed -= e => StartCoroutine(ReloadWeapon());
     }
 
     public void Update()
     {
-        if (canFire)
+        if (canFire && !isReloading)
         {
             ApplyFireMode();
             FireWeapon();
@@ -93,7 +95,7 @@ public class WeaponController : MonoBehaviour
                 lastShotTime = Time.time;
                 currentAmmo--;
 
-                StartCoroutine(nameof(ActivateWeaponEffects));
+                StartCoroutine(ActivateWeaponEffects());
 
                 Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
                 RaycastHit bulletHit;
@@ -128,11 +130,18 @@ public class WeaponController : MonoBehaviour
         }
     }
 
-    private void ReloadWeapon()
+    private IEnumerator ReloadWeapon()
     {
         if (currentAmmo <= _bulletsPerMagazine)
         {
+            Debug.Log("Reloading...");
+            isReloading = true;
+
+            yield return new WaitForSeconds(_reloadTime);
+
             currentAmmo = _bulletsPerMagazine;
+            isReloading = false;
+            Debug.Log("Reloaded.");
         }
     }
 
@@ -149,7 +158,6 @@ public class WeaponController : MonoBehaviour
 
     private void InitWeapon()
     {
-        // Initialize weapon data refs
         _fireRate = _weaponData.fireRate;
         _baseDamage = _weaponData.baseDamage;
         _bulletsPerMagazine = _weaponData.bulletsPerMagazine;
