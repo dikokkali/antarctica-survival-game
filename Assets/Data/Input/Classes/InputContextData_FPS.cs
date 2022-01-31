@@ -81,6 +81,14 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""fd74171f-65bd-4411-93f0-3926d23470e4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -215,6 +223,17 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""action"": ""Open Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e89f5b77-d595-42ff-8c45-d8ce4629f936"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -231,6 +250,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         m_FPSControls_Look = m_FPSControls.FindAction("Look", throwIfNotFound: true);
         m_FPSControls_Crouch = m_FPSControls.FindAction("Crouch", throwIfNotFound: true);
         m_FPSControls_OpenInventory = m_FPSControls.FindAction("Open Inventory", throwIfNotFound: true);
+        m_FPSControls_Reload = m_FPSControls.FindAction("Reload", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -288,6 +308,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
     private readonly InputAction m_FPSControls_Look;
     private readonly InputAction m_FPSControls_Crouch;
     private readonly InputAction m_FPSControls_OpenInventory;
+    private readonly InputAction m_FPSControls_Reload;
     public struct FPSControlsActions
     {
         private @InputContextData_FPS m_Wrapper;
@@ -300,6 +321,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         public InputAction @Look => m_Wrapper.m_FPSControls_Look;
         public InputAction @Crouch => m_Wrapper.m_FPSControls_Crouch;
         public InputAction @OpenInventory => m_Wrapper.m_FPSControls_OpenInventory;
+        public InputAction @Reload => m_Wrapper.m_FPSControls_Reload;
         public InputActionMap Get() { return m_Wrapper.m_FPSControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -333,6 +355,9 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @OpenInventory.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnOpenInventory;
                 @OpenInventory.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnOpenInventory;
                 @OpenInventory.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnOpenInventory;
+                @Reload.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnReload;
+                @Reload.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnReload;
+                @Reload.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnReload;
             }
             m_Wrapper.m_FPSControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -361,6 +386,9 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @OpenInventory.started += instance.OnOpenInventory;
                 @OpenInventory.performed += instance.OnOpenInventory;
                 @OpenInventory.canceled += instance.OnOpenInventory;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
         }
     }
@@ -375,5 +403,6 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         void OnLook(InputAction.CallbackContext context);
         void OnCrouch(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
+        void OnReload(InputAction.CallbackContext context);
     }
 }

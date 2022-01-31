@@ -19,81 +19,121 @@ public class WeaponController : MonoBehaviour
     private float _maxRange;
 
     private float lastShotTime = 0f;
+    private bool canFire = false;
     private ParticleSystem _muzzleFlashParticleSystem;
-    private WeaponState weaponState;
 
     // Input actions
     InputContextData_FPS fpsContextData;
-    InputAction fireAction;    
+    InputAction fireAction;
+    InputAction reloadAction;
 
-    [Header("Configurable Properties")]
-    public float muzzleFlashDuration;
+    [Header("Debug Info")]
+    [ReadOnly] public float currentAmmo;
 
-    public enum WeaponState
+    public enum FireMode
     {
-        Weapon_Idle,
-        Weapon_Firing,
-        Weapon_Reloading
+        SemiAuto,
+        FullAuto
     }
+
+    public FireMode selectedFireMode;
+    public float muzzleFlashDuration;
 
     private void Awake()
     {
         // Input
         fpsContextData = new InputContextData_FPS();
-        fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
 
-        lastShotTime = Time.time;
-        weaponState = WeaponState.Weapon_Idle;
+        fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
+        reloadAction = fpsContextData.FPSControls.Reload;
 
         _muzzleFlashParticleSystem = _muzzleFlash.GetComponent<ParticleSystem>();
-        //_playerFPSCamera = GetComponentInParent<Camera>();
 
-        // Initialize weapon data refs
-        _fireRate = _weaponData.fireRate;
-        _baseDamage = _weaponData.baseDamage;
-        _bulletsPerMagazine = _weaponData.bulletsPerMagazine;
-        _reloadTime = _weaponData.reloadTime;
-        _maxRange = _weaponData.maxRange;
+        InitWeapon();
     }
 
     private void OnEnable()
     {
         fpsContextData.FPSControls.Enable();
 
-        fireAction.performed += e => FireWeapon();
+        fireAction.performed += e => canFire = true;
+        fireAction.canceled += e => canFire = false;
+
+        reloadAction.performed += e => ReloadWeapon();
     }
 
     private void OnDisable()
     {
         fpsContextData.FPSControls.Disable();
 
-        fireAction.performed -= e => FireWeapon();
+        fireAction.performed -= e => canFire = true;
+        fireAction.canceled -= e => canFire = false;
+
+        reloadAction.performed -= e => ReloadWeapon();
     }
 
-    private void Update()
+    public void Update()
     {
-        
+        if (canFire)
+        {
+            ApplyFireMode();
+            FireWeapon();
+        }       
     }
+
+    #region Weapon Methods
 
     private void FireWeapon()
     {
-        if (Time.time - lastShotTime >= 1 / _fireRate)
-        {
-            lastShotTime = Time.time;
+        if (currentAmmo >= 0)
+        {           
 
-            StartCoroutine(nameof(ActivateWeaponEffects));
-
-            Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
-            RaycastHit bulletHit;
-
-            if (Physics.Raycast(bulletRay, out bulletHit, _maxRange))
+            if (Time.time - lastShotTime >= 1 / _fireRate)
             {
-                Vector3 impactPoint = bulletHit.point;
+                lastShotTime = Time.time;
+                currentAmmo--;
 
-                GameObject impact = Instantiate(_bulletImpact, impactPoint, Quaternion.LookRotation(bulletHit.normal));
-                Destroy(impact, 2f);
+                StartCoroutine(nameof(ActivateWeaponEffects));
+
+                Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
+                RaycastHit bulletHit;
+
+                if (Physics.Raycast(bulletRay, out bulletHit, _maxRange))
+                {
+                    Vector3 impactPoint = bulletHit.point;
+
+                    GameObject impact = Instantiate(_bulletImpact, impactPoint, Quaternion.LookRotation(bulletHit.normal));
+                    Destroy(impact, 2f);
+
+                    if (bulletHit.collider.gameObject.GetComponent<Rigidbody>() != null)
+                    {
+                        Vector3 forceDirection = bulletHit.point - _playerFPSCamera.transform.position;
+
+                        bulletHit.collider.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(forceDirection.normalized * 100f, bulletHit.point);
+                    }
+                }
             }
-        }      
+        }
+    }
+
+    private void ApplyFireMode()
+    {
+        if (selectedFireMode == FireMode.SemiAuto)
+        {
+            canFire = false;
+        }
+        else if (selectedFireMode == FireMode.FullAuto)
+        {
+            canFire = true;
+        }
+    }
+
+    private void ReloadWeapon()
+    {
+        if (currentAmmo <= _bulletsPerMagazine)
+        {
+            currentAmmo = _bulletsPerMagazine;
+        }
     }
 
     private IEnumerator ActivateWeaponEffects()
@@ -107,4 +147,20 @@ public class WeaponController : MonoBehaviour
         _muzzleFlash.SetActive(false);
     }
 
+    private void InitWeapon()
+    {
+        // Initialize weapon data refs
+        _fireRate = _weaponData.fireRate;
+        _baseDamage = _weaponData.baseDamage;
+        _bulletsPerMagazine = _weaponData.bulletsPerMagazine;
+        _reloadTime = _weaponData.reloadTime;
+        _maxRange = _weaponData.maxRange;
+
+        selectedFireMode = FireMode.SemiAuto;
+        lastShotTime = Time.time;
+
+        currentAmmo = _bulletsPerMagazine;
+    }
+
+    #endregion
 }

@@ -15,7 +15,7 @@ MonoBehaviour:
   itemId: wep_0
   itemName: Test Rifle
   baseDamage: 20
-  fireRate: 6
+  fireRate: 10
   reloadTime: 3
   bulletsPerMagazine: 20
   maxRange: Infinity
