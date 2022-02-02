@@ -11,9 +11,6 @@ public class Weapon : ItemBase
     public float bulletsPerMagazine;
     public float maxRange; 
 
-    public GameObject prefab;
-    public Sprite inventoryIcon;
-
     public Weapon()
     {
         GenerateItemId();

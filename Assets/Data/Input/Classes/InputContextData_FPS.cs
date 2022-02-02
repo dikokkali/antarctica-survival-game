@@ -89,6 +89,22 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Quick Select 1 "",
+                    ""type"": ""Button"",
+                    ""id"": ""eb8e56a0-1d57-43a4-adab-2e45a05d31d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Quick Select 2"",
+                    ""type"": ""Button"",
+                    ""id"": ""04a860ac-c4e3-43b4-b4c9-e1c12d708075"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -234,6 +250,28 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""action"": ""Reload"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""5f4fa987-c001-4376-a291-e76e17831cd4"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quick Select 1 "",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""757ced10-2641-46ce-a32e-8673f57aec0b"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Quick Select 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -251,6 +289,8 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         m_FPSControls_Crouch = m_FPSControls.FindAction("Crouch", throwIfNotFound: true);
         m_FPSControls_OpenInventory = m_FPSControls.FindAction("Open Inventory", throwIfNotFound: true);
         m_FPSControls_Reload = m_FPSControls.FindAction("Reload", throwIfNotFound: true);
+        m_FPSControls_QuickSelect1 = m_FPSControls.FindAction("Quick Select 1 ", throwIfNotFound: true);
+        m_FPSControls_QuickSelect2 = m_FPSControls.FindAction("Quick Select 2", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -309,6 +349,8 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
     private readonly InputAction m_FPSControls_Crouch;
     private readonly InputAction m_FPSControls_OpenInventory;
     private readonly InputAction m_FPSControls_Reload;
+    private readonly InputAction m_FPSControls_QuickSelect1;
+    private readonly InputAction m_FPSControls_QuickSelect2;
     public struct FPSControlsActions
     {
         private @InputContextData_FPS m_Wrapper;
@@ -322,6 +364,8 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         public InputAction @Crouch => m_Wrapper.m_FPSControls_Crouch;
         public InputAction @OpenInventory => m_Wrapper.m_FPSControls_OpenInventory;
         public InputAction @Reload => m_Wrapper.m_FPSControls_Reload;
+        public InputAction @QuickSelect1 => m_Wrapper.m_FPSControls_QuickSelect1;
+        public InputAction @QuickSelect2 => m_Wrapper.m_FPSControls_QuickSelect2;
         public InputActionMap Get() { return m_Wrapper.m_FPSControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -358,6 +402,12 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @Reload.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnReload;
                 @Reload.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnReload;
                 @Reload.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnReload;
+                @QuickSelect1.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect1;
+                @QuickSelect1.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect1;
+                @QuickSelect1.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect1;
+                @QuickSelect2.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect2;
+                @QuickSelect2.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect2;
+                @QuickSelect2.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect2;
             }
             m_Wrapper.m_FPSControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -389,6 +439,12 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @Reload.started += instance.OnReload;
                 @Reload.performed += instance.OnReload;
                 @Reload.canceled += instance.OnReload;
+                @QuickSelect1.started += instance.OnQuickSelect1;
+                @QuickSelect1.performed += instance.OnQuickSelect1;
+                @QuickSelect1.canceled += instance.OnQuickSelect1;
+                @QuickSelect2.started += instance.OnQuickSelect2;
+                @QuickSelect2.performed += instance.OnQuickSelect2;
+                @QuickSelect2.canceled += instance.OnQuickSelect2;
             }
         }
     }
@@ -404,5 +460,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         void OnCrouch(InputAction.CallbackContext context);
         void OnOpenInventory(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
+        void OnQuickSelect1(InputAction.CallbackContext context);
+        void OnQuickSelect2(InputAction.CallbackContext context);
     }
 }
