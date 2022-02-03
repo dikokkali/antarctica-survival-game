@@ -1,11 +1,11 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.TextCore;
+using TMPro;
 
-public class UISlot : MonoBehaviour
+public class UI_Slot : MonoBehaviour
 {
-    public Sprite itemIcon;
-    public TextMesh itemQuantity;
+    public Image itemIcon;
+    public TextMeshProUGUI itemQuantity;
 
     public InventorySlot inventorySlot;
 }

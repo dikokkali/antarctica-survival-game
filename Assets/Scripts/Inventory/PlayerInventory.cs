@@ -8,7 +8,6 @@ public class PlayerInventory : MonoBehaviour
 {
     // TESTING
     public ItemBase item1, item2;
-    public GameObject quickInventoryUI;
     // TESTING
 
     private List<InventorySlot> _inventory = new List<InventorySlot>();
@@ -21,9 +20,16 @@ public class PlayerInventory : MonoBehaviour
         InventorySlot slot1 = new InventorySlot(item1, 10);
         InventorySlot slot2 = new InventorySlot(item2, 10);
 
-        AddToQuickInventory(slot1);
-        AddToQuickInventory(slot2);
+        AddToInventory(slot1.slotItem, slot1.Quantity);
+        AddToInventory(slot2.slotItem, slot1.Quantity);
     }
+
+    #region Access Methods
+    public List<InventorySlot> GetInventory()
+    {
+        return _inventory;
+    }
+    #endregion
 
     #region Inventory Operations
 
@@ -33,6 +39,8 @@ public class PlayerInventory : MonoBehaviour
 
         newSlot.slotItem = item;
         newSlot.Quantity = quantity;
+
+        _inventory.Add(newSlot);
     }
 
     public void RemoveFromInventory()
