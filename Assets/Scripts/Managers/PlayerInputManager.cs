@@ -3,16 +3,17 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using VHS;
 
-public class PlayerInputController : MonoBehaviour
+public class PlayerInputManager : MonoBehaviour
 { 
-    [SerializeField] private CameraInputData cameraInputData = null;
-    [SerializeField] private MovementInputData movementInputData = null;
-
     public InputActionAsset contextData;
     public InputContextData_FPS fpsInputContext;
 
     // References
     public UI_DisplayController uiDisplayController;
+
+    // Shared movement data 
+    [SerializeField] private CameraInputData cameraInputData = null;
+    [SerializeField] private MovementInputData movementInputData = null;
 
     // Action maps    
     private InputActionMap fpsActionMap;
@@ -27,6 +28,8 @@ public class PlayerInputController : MonoBehaviour
 
     InputAction UIInventoryClose;
 
+    #region Built-in Methods
+
     private void Awake()
     {
         InitInputContexts();
@@ -35,24 +38,11 @@ public class PlayerInputController : MonoBehaviour
 
     private void OnEnable()
     {
-        // Inventory
-        //fpsInputContext.FPSControls.OpenInventory.performed += ExecuteInventoryOpenCommand;
-        //fpsInputContext.UIControls.UICloseInventory.performed += ExecuteInventoryCloseCommand;
-
-        fpsInputContext.FPSControls.OpenInventory.performed += e => ChangeActiveActionMap(uiActionMap);
-        fpsInputContext.UIControls.UICloseInventory.performed += e => ChangeActiveActionMap(fpsActionMap);
-
-        // Movement
         SubscribeActions();
     }
 
     private void OnDisable()
-    {        
-        // Inventory
-        //fpsInputContext.FPSControls.OpenInventory.performed -= ExecuteInventoryOpenCommand;
-        //fpsInputContext.UIControls.UICloseInventory.performed -= ExecuteInventoryCloseCommand;
-
-        // Movement
+    {     
         UnsubscribeActions();
     }
 
@@ -61,6 +51,8 @@ public class PlayerInputController : MonoBehaviour
         GetCameraInput();
         GetMovementInputData();
     }
+
+    #endregion
 
     #region Setup
 
@@ -109,6 +101,10 @@ public class PlayerInputController : MonoBehaviour
 
         jumpAction.performed += e => movementInputData.JumpClicked = true;
         jumpAction.canceled += e => movementInputData.JumpClicked = false;
+
+        // Inventory       
+        fpsInputContext.FPSControls.OpenInventory.performed += e => ChangeActiveActionMap(uiActionMap);
+        fpsInputContext.UIControls.UICloseInventory.performed += e => ChangeActiveActionMap(fpsActionMap);
     }
 
     private void UnsubscribeActions()
@@ -132,6 +128,11 @@ public class PlayerInputController : MonoBehaviour
 
         crouchAction.performed -= e => movementInputData.CrouchClicked = true;
         crouchAction.canceled += e => movementInputData.CrouchClicked = false;
+
+        // Inventory
+        fpsInputContext.FPSControls.OpenInventory.performed -= e => ChangeActiveActionMap(uiActionMap);
+        fpsInputContext.UIControls.UICloseInventory.performed -= e => ChangeActiveActionMap(fpsActionMap);
+
     }
 
 
@@ -180,8 +181,8 @@ public class PlayerInputController : MonoBehaviour
     void GetCameraInput()
     {
         Vector2 inputVector = lookAction.ReadValue<Vector2>() * 0.5f * 0.1f;
-        cameraInputData.InputVectorX = Mouse.current.delta.x.ReadValue();
-        cameraInputData.InputVectorY = Mouse.current.delta.y.ReadValue();
+        cameraInputData.InputVectorX = fpsInputContext.FPSControls.Look.ReadValue<Vector2>().x; //Mouse.current.delta.x.ReadValue();
+        cameraInputData.InputVectorY = fpsInputContext.FPSControls.Look.ReadValue<Vector2>().y; //Mouse.current.delta.y.ReadValue();
     }
 
     void GetMovementInputData()
