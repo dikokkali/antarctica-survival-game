@@ -107,6 +107,7 @@ public class PlayerInputManager : MonoBehaviour
         fpsInputContext.UIControls.UICloseInventory.performed += e => ChangeActiveActionMap(fpsActionMap);
     }
 
+    // TODO: Lambda expression unsubscribes don't work!
     private void UnsubscribeActions()
     {
         fpsInputContext.FPSControls.Disable();

@@ -546,10 +546,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf81c46dab5184347851b08b503305cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraInputData: {fileID: 11400000, guid: 91ebd8974cbf1964f86a0e8b5e93ed5c, type: 2}
-  movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
   contextData: {fileID: -944628639613478452, guid: 7e707f975c2f0814bb66f9a0687ffb4b, type: 3}
   uiDisplayController: {fileID: 1752418499}
+  cameraInputData: {fileID: 11400000, guid: 91ebd8974cbf1964f86a0e8b5e93ed5c, type: 2}
+  movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
 --- !u!1 &302106013
 GameObject:
   m_ObjectHideFlags: 0
@@ -2864,6 +2864,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 8941224640422283573}
+  _playerInputManager: {fileID: 268812088}
 --- !u!1 &1766763030
 GameObject:
   m_ObjectHideFlags: 0
