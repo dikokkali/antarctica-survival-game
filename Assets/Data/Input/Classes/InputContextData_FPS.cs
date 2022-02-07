@@ -274,6 +274,210 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""UIControls"",
+            ""id"": ""efb6d58f-a670-44c2-a9f6-1dfc486688e1"",
+            ""actions"": [
+                {
+                    ""name"": ""UIPoint"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""5b479a83-285b-4472-b82e-620d24de2d9c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UILeftClick"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""ae3ab964-c817-4376-a2b5-e6c1b56348b7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UIRightClick"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""86688a6a-5e5d-4119-bd6c-608174c9f9d4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UIScroll"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""1ff60a90-3e3d-44aa-9aa9-27cd7ebc5bc1"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UISubmit"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""5c6cbf9c-4991-4c89-a25e-4da0eb548bc2"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UICancel"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""3db775af-27ea-422d-907b-2579500eb2c8"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UINavigate"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""e12bfd7b-7d87-449c-aa03-028b59b1a3cf"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""UICloseInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""8b9b0b97-fddf-48bb-b85d-07c6e07e034b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""2c59966c-ca58-4053-9708-38651e5dec2e"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIPoint"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cded1b08-5f7a-48c1-8749-46ca94eb1716"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UILeftClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""46b65e9c-5f0d-4e32-a1c6-657ff4b33c2f"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIRightClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd520d90-3a06-416f-bebe-1ce30f3b05aa"",
+                    ""path"": ""<Mouse>/scroll"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UIScroll"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""068ec169-aba7-40cc-9154-c50a0a7fc42a"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UISubmit"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""126d9519-fec5-4aba-8d5a-34f818d1c197"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UICancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""857be0e6-ca83-42c5-951f-679af8c2fa0e"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""36ef8a95-3867-4927-a81c-e447734be3b1"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""8c0830ad-a3ee-455d-9ab5-9f64ae3a72c6"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""91374db9-513c-4c2f-a8c2-ac9d43f4b8e3"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a80a5aa6-add2-43cd-9ce7-6d320c605d42"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UINavigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""b2064e3a-0e66-4543-9fe3-0f81f258b6c5"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""UICloseInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -291,6 +495,16 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         m_FPSControls_Reload = m_FPSControls.FindAction("Reload", throwIfNotFound: true);
         m_FPSControls_QuickSelect1 = m_FPSControls.FindAction("Quick Select 1 ", throwIfNotFound: true);
         m_FPSControls_QuickSelect2 = m_FPSControls.FindAction("Quick Select 2", throwIfNotFound: true);
+        // UIControls
+        m_UIControls = asset.FindActionMap("UIControls", throwIfNotFound: true);
+        m_UIControls_UIPoint = m_UIControls.FindAction("UIPoint", throwIfNotFound: true);
+        m_UIControls_UILeftClick = m_UIControls.FindAction("UILeftClick", throwIfNotFound: true);
+        m_UIControls_UIRightClick = m_UIControls.FindAction("UIRightClick", throwIfNotFound: true);
+        m_UIControls_UIScroll = m_UIControls.FindAction("UIScroll", throwIfNotFound: true);
+        m_UIControls_UISubmit = m_UIControls.FindAction("UISubmit", throwIfNotFound: true);
+        m_UIControls_UICancel = m_UIControls.FindAction("UICancel", throwIfNotFound: true);
+        m_UIControls_UINavigate = m_UIControls.FindAction("UINavigate", throwIfNotFound: true);
+        m_UIControls_UICloseInventory = m_UIControls.FindAction("UICloseInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -449,6 +663,95 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         }
     }
     public FPSControlsActions @FPSControls => new FPSControlsActions(this);
+
+    // UIControls
+    private readonly InputActionMap m_UIControls;
+    private IUIControlsActions m_UIControlsActionsCallbackInterface;
+    private readonly InputAction m_UIControls_UIPoint;
+    private readonly InputAction m_UIControls_UILeftClick;
+    private readonly InputAction m_UIControls_UIRightClick;
+    private readonly InputAction m_UIControls_UIScroll;
+    private readonly InputAction m_UIControls_UISubmit;
+    private readonly InputAction m_UIControls_UICancel;
+    private readonly InputAction m_UIControls_UINavigate;
+    private readonly InputAction m_UIControls_UICloseInventory;
+    public struct UIControlsActions
+    {
+        private @InputContextData_FPS m_Wrapper;
+        public UIControlsActions(@InputContextData_FPS wrapper) { m_Wrapper = wrapper; }
+        public InputAction @UIPoint => m_Wrapper.m_UIControls_UIPoint;
+        public InputAction @UILeftClick => m_Wrapper.m_UIControls_UILeftClick;
+        public InputAction @UIRightClick => m_Wrapper.m_UIControls_UIRightClick;
+        public InputAction @UIScroll => m_Wrapper.m_UIControls_UIScroll;
+        public InputAction @UISubmit => m_Wrapper.m_UIControls_UISubmit;
+        public InputAction @UICancel => m_Wrapper.m_UIControls_UICancel;
+        public InputAction @UINavigate => m_Wrapper.m_UIControls_UINavigate;
+        public InputAction @UICloseInventory => m_Wrapper.m_UIControls_UICloseInventory;
+        public InputActionMap Get() { return m_Wrapper.m_UIControls; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIControlsActions set) { return set.Get(); }
+        public void SetCallbacks(IUIControlsActions instance)
+        {
+            if (m_Wrapper.m_UIControlsActionsCallbackInterface != null)
+            {
+                @UIPoint.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIPoint;
+                @UIPoint.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIPoint;
+                @UIPoint.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIPoint;
+                @UILeftClick.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUILeftClick;
+                @UILeftClick.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUILeftClick;
+                @UILeftClick.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUILeftClick;
+                @UIRightClick.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIRightClick;
+                @UIRightClick.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIRightClick;
+                @UIRightClick.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIRightClick;
+                @UIScroll.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIScroll;
+                @UIScroll.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIScroll;
+                @UIScroll.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUIScroll;
+                @UISubmit.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUISubmit;
+                @UISubmit.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUISubmit;
+                @UISubmit.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUISubmit;
+                @UICancel.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUICancel;
+                @UICancel.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUICancel;
+                @UICancel.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUICancel;
+                @UINavigate.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUINavigate;
+                @UINavigate.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUINavigate;
+                @UINavigate.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUINavigate;
+                @UICloseInventory.started -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUICloseInventory;
+                @UICloseInventory.performed -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUICloseInventory;
+                @UICloseInventory.canceled -= m_Wrapper.m_UIControlsActionsCallbackInterface.OnUICloseInventory;
+            }
+            m_Wrapper.m_UIControlsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @UIPoint.started += instance.OnUIPoint;
+                @UIPoint.performed += instance.OnUIPoint;
+                @UIPoint.canceled += instance.OnUIPoint;
+                @UILeftClick.started += instance.OnUILeftClick;
+                @UILeftClick.performed += instance.OnUILeftClick;
+                @UILeftClick.canceled += instance.OnUILeftClick;
+                @UIRightClick.started += instance.OnUIRightClick;
+                @UIRightClick.performed += instance.OnUIRightClick;
+                @UIRightClick.canceled += instance.OnUIRightClick;
+                @UIScroll.started += instance.OnUIScroll;
+                @UIScroll.performed += instance.OnUIScroll;
+                @UIScroll.canceled += instance.OnUIScroll;
+                @UISubmit.started += instance.OnUISubmit;
+                @UISubmit.performed += instance.OnUISubmit;
+                @UISubmit.canceled += instance.OnUISubmit;
+                @UICancel.started += instance.OnUICancel;
+                @UICancel.performed += instance.OnUICancel;
+                @UICancel.canceled += instance.OnUICancel;
+                @UINavigate.started += instance.OnUINavigate;
+                @UINavigate.performed += instance.OnUINavigate;
+                @UINavigate.canceled += instance.OnUINavigate;
+                @UICloseInventory.started += instance.OnUICloseInventory;
+                @UICloseInventory.performed += instance.OnUICloseInventory;
+                @UICloseInventory.canceled += instance.OnUICloseInventory;
+            }
+        }
+    }
+    public UIControlsActions @UIControls => new UIControlsActions(this);
     public interface IFPSControlsActions
     {
         void OnMovement(InputAction.CallbackContext context);
@@ -462,5 +765,16 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnQuickSelect1(InputAction.CallbackContext context);
         void OnQuickSelect2(InputAction.CallbackContext context);
+    }
+    public interface IUIControlsActions
+    {
+        void OnUIPoint(InputAction.CallbackContext context);
+        void OnUILeftClick(InputAction.CallbackContext context);
+        void OnUIRightClick(InputAction.CallbackContext context);
+        void OnUIScroll(InputAction.CallbackContext context);
+        void OnUISubmit(InputAction.CallbackContext context);
+        void OnUICancel(InputAction.CallbackContext context);
+        void OnUINavigate(InputAction.CallbackContext context);
+        void OnUICloseInventory(InputAction.CallbackContext context);
     }
 }

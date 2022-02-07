@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemId: wep_1
   itemName: 
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: ecd3eaae58288144aaf5051c81fe2794, type: 3}
   itemPrefab: {fileID: 0}
   baseDamage: 0
   fireRate: 0

@@ -61,6 +61,25 @@ Transform:
   m_Father: {fileID: 1349122559501590329}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1322231379
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869798127364375939}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 055bf1cafe3ed3c45bc05f2c8b1d5c10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _weaponData: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
+  _playerFPSCamera: {fileID: 3843716869417167139}
+  _muzzleFlash: {fileID: 1236191620}
+  _bulletImpact: {fileID: 100002, guid: 00fedc70b62a31e448e8ccc298257b56, type: 3}
+  currentAmmo: 0
+  selectedFireMode: 0
+  muzzleFlashDuration: 0.2
 --- !u!1 &3843716869363435361
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,7 +415,8 @@ GameObject:
   - component: {fileID: 3843716870331872634}
   - component: {fileID: 3843716870331872629}
   - component: {fileID: 3843716870331872628}
-  - component: {fileID: 3843716870331872632}
+  - component: {fileID: 1319167313}
+  - component: {fileID: 1319167314}
   m_Layer: 0
   m_Name: P_First_Person_Controller
   m_TagString: Untagged
@@ -589,7 +609,7 @@ MonoBehaviour:
   m_inAirTimer: 0
   m_inputVectorMagnitude: 0
   m_smoothInputVectorMagnitude: 0
---- !u!114 &3843716870331872632
+--- !u!114 &1319167313
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -598,28 +618,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 3843716870331872631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1d95a60a4f97dd8408e783d47bb78e25, type: 3}
+  m_Script: {fileID: 11500000, guid: 339344c0f2967dc428f1acd164d9a5f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cameraInputData: {fileID: 11400000, guid: 91ebd8974cbf1964f86a0e8b5e93ed5c, type: 2}
-  movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
---- !u!114 &1322231379
+  item1: {fileID: 11400000, guid: a9e447d51b0ff714e9a29649efbff6d2, type: 2}
+  item2: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
+--- !u!114 &1319167314
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1869798127364375939}
+  m_GameObject: {fileID: 3843716870331872631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 055bf1cafe3ed3c45bc05f2c8b1d5c10, type: 3}
+  m_Script: {fileID: 11500000, guid: bf81c46dab5184347851b08b503305cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _weaponData: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
-  _playerFPSCamera: {fileID: 3843716869417167139}
-  _muzzleFlash: {fileID: 1236191620}
-  _bulletImpact: {fileID: 100002, guid: 00fedc70b62a31e448e8ccc298257b56, type: 3}
-  muzzleFlashDuration: 0.2
+  cameraInputData: {fileID: 11400000, guid: 91ebd8974cbf1964f86a0e8b5e93ed5c, type: 2}
+  movementInputData: {fileID: 11400000, guid: abad080c0665fdc4cb00444da1f990a9, type: 2}
+  contextData: {fileID: -944628639613478452, guid: 7e707f975c2f0814bb66f9a0687ffb4b, type: 3}
+  uiDisplayController: {fileID: 0}
 --- !u!1001 &1236225826
 PrefabInstance:
   m_ObjectHideFlags: 0
