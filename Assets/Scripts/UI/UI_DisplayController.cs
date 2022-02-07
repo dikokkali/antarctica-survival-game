@@ -14,12 +14,23 @@ public class UI_DisplayController : MonoBehaviour
     private void Awake()
     {
         _inputContextData = _playerInputManager.GetComponent<PlayerInputManager>().fpsInputContext;
+
+        InitUIDisplay();
     }
     private void OnEnable()
     {
         _inputContextData.FPSControls.OpenInventory.performed += ctx => OnInventoryButtonPressed();
         _inputContextData.UIControls.UICloseInventory.performed += ctx => OnInventoryButtonPressed();
     }
+
+    #region UI Setup
+
+    private void InitUIDisplay()
+    {
+        inventoryUI.SetActive(false);
+    }
+
+    #endregion
 
     #region Inventory UI Management
     private void ShowInventory()
@@ -50,8 +61,7 @@ public class UI_DisplayController : MonoBehaviour
     #region Callbacks
 
     public void OnInventoryButtonPressed()
-    {
-        Debug.Log("Called");
+    {      
         if (!inventoryUI.activeSelf)
         {
             ShowInventory();

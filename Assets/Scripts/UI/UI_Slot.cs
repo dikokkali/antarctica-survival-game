@@ -8,4 +8,6 @@ public class UI_Slot : MonoBehaviour
     public TextMeshProUGUI itemQuantity;
 
     public InventorySlot inventorySlot;
+
+    public Transform _contextMenu;
 }

@@ -87,7 +87,6 @@ public class WeaponController : MonoBehaviour
     {
         if (currentAmmo >= 0)
         {           
-
             if (Time.time - lastShotTime >= 1 / _fireRate)
             {
                 lastShotTime = Time.time;
