@@ -7,6 +7,8 @@ using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour
 {
+    [SerializeField] private PlayerInputManager _playerInputManager;
+
     [SerializeField] public Weapon _weaponData;
     [SerializeField] private GameObject _playerFPSCamera;
     [SerializeField] private GameObject _muzzleFlash;
@@ -44,7 +46,7 @@ public class WeaponController : MonoBehaviour
     private void Awake()
     {
         // Input
-        fpsContextData = new InputContextData_FPS();
+        fpsContextData = _playerInputManager.fpsInputContext;
 
         fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
         reloadAction = fpsContextData.FPSControls.Reload;
@@ -55,9 +57,7 @@ public class WeaponController : MonoBehaviour
     }
 
     private void OnEnable()
-    {
-        fpsContextData.FPSControls.Enable();
-
+    {     
         fireAction.performed += e => canFire = true;
         fireAction.canceled += e => canFire = false;
 
@@ -66,8 +66,6 @@ public class WeaponController : MonoBehaviour
 
     private void OnDisable()
     {
-        fpsContextData.FPSControls.Disable();
-
         fireAction.performed -= e => canFire = true;
         fireAction.canceled -= e => canFire = false;
 
