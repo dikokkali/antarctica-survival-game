@@ -314,6 +314,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6257064665671024736}
   - component: {fileID: 4930461896353069322}
+  - component: {fileID: 625731448}
   m_Layer: 0
   m_Name: SubRifle 1
   m_TagString: Untagged
@@ -328,7 +329,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6745934320563133146}
-  m_LocalRotation: {x: -0, y: 0.009948241, z: -0, w: 0.9999505}
+  m_LocalRotation: {x: 0, y: 0.009948241, z: 0, w: 0.9999505}
   m_LocalPosition: {x: 0.13000011, y: -0.100000024, z: 0.5}
   m_LocalScale: {x: 0.12999998, y: 0.13, z: 0.12999998}
   m_Children:
@@ -354,13 +355,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerInputManager: {fileID: 0}
-  _weaponData: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
   _playerFPSCamera: {fileID: 0}
-  _muzzleFlash: {fileID: 4930461896271222493}
-  _bulletImpact: {fileID: 100002, guid: 00fedc70b62a31e448e8ccc298257b56, type: 3}
+  _weaponEffects: {fileID: 0}
+  _weaponData: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
   currentAmmo: 0
   selectedFireMode: 0
-  muzzleFlashDuration: 0.2
+--- !u!114 &625731448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6745934320563133146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4bf7db9ac96ed7489a3fee7f5a34da4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  muzzleFlashDuration: 0.1
+  _muzzleFlash: {fileID: 4930461896271222493}
+  _bulletImpact: {fileID: 100002, guid: 00fedc70b62a31e448e8ccc298257b56, type: 3}
 --- !u!1 &7207794344042519412
 GameObject:
   m_ObjectHideFlags: 0

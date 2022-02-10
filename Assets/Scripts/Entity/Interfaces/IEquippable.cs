@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IEquippable<T> where T : ItemBase
+public interface IEquippable
 {
-    public T itemData { get; set; }
+    public ItemBase itemData { get; set; }
 }
+
+
