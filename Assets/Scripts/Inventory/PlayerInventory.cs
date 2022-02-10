@@ -14,7 +14,6 @@ public class PlayerInventory : MonoBehaviour
 
     private List<InventorySlot> _inventory = new List<InventorySlot>();    
 
-    public List<InventorySlot> quickInventory = new List<InventorySlot>();
     private void Awake()
     {
         // TODO: Testing purposes, remove
@@ -53,10 +52,13 @@ public class PlayerInventory : MonoBehaviour
     {
         GameObject equipPrefab = Instantiate(item.itemPrefab);
 
-        // TODO: Might need to change if weapons are pooled under the mount  
         if (equipMount.transform.childCount > 0)
         {
-            Destroy(equipMount.transform.GetChild(0).gameObject);
+            if (equipMount.transform.GetChild(0).GetComponent<IEquippedItem>() != null)
+            {
+                Destroy(equipMount.transform.GetChild(0).gameObject);
+            }
+            else Debug.LogWarning("You're trying to destroy an Equipped Item but it doesn't exist.");
         }
               
         equipPrefab.transform.position = equipMount.transform.position;

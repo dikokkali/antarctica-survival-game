@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WeaponController : MonoBehaviour, IEquippable
+public class WeaponController : MonoBehaviour, IEquippedItem
 {
     [SerializeField] private PlayerInputManager _playerInputManager;    
 
