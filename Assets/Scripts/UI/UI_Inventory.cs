@@ -14,9 +14,16 @@ public class UI_Inventory : MonoBehaviour, IPointerClickHandler
 
     private List<GameObject> slots = new List<GameObject>();
 
+    private GameObject selectedSlot = null;
+
     private void Awake()
     {
         DrawInventory();
+    }
+
+    private void OnDisable()
+    {
+        contextMenuPanel.SetActive(false);
     }
 
     private void AddUISlot(InventorySlot slotData)
@@ -59,6 +66,8 @@ public class UI_Inventory : MonoBehaviour, IPointerClickHandler
             {
                 contextMenuPanel.transform.position = eventData.pointerCurrentRaycast.gameObject.transform.position;
                 contextMenuPanel.SetActive(true);
+
+                selectedSlot = eventData.pointerCurrentRaycast.gameObject;
             }
             else
             {                
@@ -77,7 +86,12 @@ public class UI_Inventory : MonoBehaviour, IPointerClickHandler
 
     public void OnContextMenuEquipButtonPressed()
     {
-        Debug.Log("Clicked on equip context");
+        if (selectedSlot != null)
+        {
+            var equippable = selectedSlot.GetComponentInParent<UI_Slot>().inventorySlot.slotItem;
+
+            _playerInventory.EquipItem(equippable);
+        }
     }
 
     public void OnContextMenuDropButtonPressed()

@@ -5,12 +5,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WeaponController : MonoBehaviour
+public class WeaponController : MonoBehaviour, IEquippable<Weapon>
 {
-    [SerializeField] private PlayerInputManager _playerInputManager;
+    [SerializeField] private PlayerInputManager _playerInputManager;    
 
-    [SerializeField] public Weapon _weaponData;
-    [SerializeField] private GameObject _playerFPSCamera;
+    [SerializeField] private Camera _playerFPSCamera;
     [SerializeField] private GameObject _muzzleFlash;
     [SerializeField] private GameObject _bulletImpact;
 
@@ -25,6 +24,13 @@ public class WeaponController : MonoBehaviour
     private bool isReloading = false;
 
     private ParticleSystem _muzzleFlashParticleSystem;
+
+    [SerializeField] private Weapon _weaponData;
+    public Weapon itemData
+    {
+        get { return _weaponData; }
+        set { _weaponData = value; }
+    }
 
     // Input actions
     InputContextData_FPS fpsContextData;
@@ -44,7 +50,7 @@ public class WeaponController : MonoBehaviour
     public float muzzleFlashDuration;
 
     private void Awake()
-    {
+    {       
         // Input
         fpsContextData = _playerInputManager.fpsInputContext;
 
@@ -52,7 +58,7 @@ public class WeaponController : MonoBehaviour
         reloadAction = fpsContextData.FPSControls.Reload;
 
         _muzzleFlashParticleSystem = _muzzleFlash.GetComponent<ParticleSystem>();
-
+       
         InitWeapon();
     }
 

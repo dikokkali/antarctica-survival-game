@@ -10,6 +10,6 @@ public abstract class ItemBase : ScriptableObject
     public Sprite itemIcon;
     public GameObject itemPrefab;
 
-    protected abstract void GenerateItemId();
+    protected abstract void GenerateItemId();  
     
 }

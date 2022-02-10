@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8274902857343331167
+--- !u!1 &3253083325748110814
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,12 +8,12 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8050448839239021304}
-  - component: {fileID: 3546642651036203864}
-  - component: {fileID: 7518618500971912112}
-  - component: {fileID: 644425606795167249}
-  - component: {fileID: 164462166556234586}
-  - component: {fileID: 2003004458267874583}
+  - component: {fileID: 8464022317433204596}
+  - component: {fileID: 1623440378230985207}
+  - component: {fileID: 8517086806831807214}
+  - component: {fileID: 6935184094358022313}
+  - component: {fileID: 7808815296485170188}
+  - component: {fileID: 3657000900727030624}
   m_Layer: 0
   m_Name: Pistol
   m_TagString: Untagged
@@ -21,27 +21,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8050448839239021304
+--- !u!4 &8464022317433204596
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8274902857343331167}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18, y: 0.5, z: 17}
+  m_GameObject: {fileID: 3253083325748110814}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: -0.348, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3546642651036203864
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!114 &1623440378230985207
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8274902857343331167}
+  m_GameObject: {fileID: 3253083325748110814}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8233d90336aea43098adf6dbabd606a2, type: 3}
@@ -730,17 +730,15 @@ MonoBehaviour:
   m_VersionIndex: 1595
   m_IsSelectable: 1
   m_SelectedFaces: 
-  m_SelectedEdges:
-  - a: 82
-    b: 83
-  m_SelectedVertices: 5200000053000000
---- !u!114 &7518618500971912112
+  m_SelectedEdges: []
+  m_SelectedVertices: 
+--- !u!114 &8517086806831807214
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8274902857343331167}
+  m_GameObject: {fileID: 3253083325748110814}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1ca002da428252441b92f28d83c8a65f, type: 3}
@@ -760,13 +758,13 @@ MonoBehaviour:
     version: 1
     00000000:
       type: {class: Cube, ns: UnityEngine.ProBuilder.Shapes, asm: Unity.ProBuilder}
---- !u!23 &644425606795167249
+--- !u!23 &6935184094358022313
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8274902857343331167}
+  m_GameObject: {fileID: 3253083325748110814}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -801,21 +799,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!33 &164462166556234586
+--- !u!33 &7808815296485170188
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8274902857343331167}
+  m_GameObject: {fileID: 3253083325748110814}
   m_Mesh: {fileID: 0}
---- !u!64 &2003004458267874583
+--- !u!64 &3657000900727030624
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8274902857343331167}
+  m_GameObject: {fileID: 3253083325748110814}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

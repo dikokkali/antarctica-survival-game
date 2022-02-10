@@ -10,10 +10,11 @@ public class PlayerInventory : MonoBehaviour
     public ItemBase item1, item2;
     // TESTING
 
-    private List<InventorySlot> _inventory = new List<InventorySlot>();
+    public GameObject equipMount;
+
+    private List<InventorySlot> _inventory = new List<InventorySlot>();    
 
     public List<InventorySlot> quickInventory = new List<InventorySlot>();
-
     private void Awake()
     {
         // TODO: Testing purposes, remove
@@ -48,9 +49,20 @@ public class PlayerInventory : MonoBehaviour
         // TODO: Determine how clients request a removal (index, slot etc.)
     }
 
-    public void AddToQuickInventory(InventorySlot slot)
+    public void EquipItem(ItemBase item)
     {
-        quickInventory.Add(slot);
+        GameObject equipPrefab = Instantiate(item.itemPrefab);
+
+        // TODO: Might need to change if weapons are pooled under the mount  
+        if (equipMount.transform.childCount > 0)
+        {
+            Destroy(equipMount.transform.GetChild(0).gameObject);
+        }
+              
+        equipPrefab.transform.position = equipMount.transform.position;
+        equipPrefab.transform.rotation = equipMount.transform.rotation;
+
+        equipPrefab.transform.SetParent(equipMount.transform);        
     }
     #endregion
 }
