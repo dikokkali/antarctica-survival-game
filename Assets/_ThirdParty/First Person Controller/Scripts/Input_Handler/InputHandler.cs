@@ -26,8 +26,6 @@ namespace VHS
             cameraInputData.ResetInput();
             movementInputData.ResetInput();
 
-            fpsContextData = new InputContextData_FPS();
-
             movementAction = fpsContextData.FPSControls.Movement;
             lookAction = fpsContextData.FPSControls.Look;
             runAction = fpsContextData.FPSControls.Run;
@@ -38,7 +36,7 @@ namespace VHS
         private void OnEnable()
         {
             fpsContextData.FPSControls.Enable();
-
+ 
             runAction.started += e =>
             {
                 movementInputData.RunClicked = true;
@@ -55,7 +53,7 @@ namespace VHS
             jumpAction.canceled += e => movementInputData.JumpClicked = false;
 
             jumpAction.performed += e => movementInputData.JumpClicked = true;
-            jumpAction.canceled += e => movementInputData.JumpClicked = false;
+            jumpAction.canceled += e => movementInputData.JumpClicked = false;     
 
             //crouchAction.performed += e => movementInputData.CrouchClicked = true;
             //crouchAction.canceled += e => movementInputData.CrouchClicked = false;

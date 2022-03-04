@@ -5,12 +5,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class WeaponController : MonoBehaviour
+public class WeaponController : MonoBehaviour, IEquippedItem
 {
-    [SerializeField] public Weapon _weaponData;
-    [SerializeField] private GameObject _playerFPSCamera;
-    [SerializeField] private GameObject _muzzleFlash;
-    [SerializeField] private GameObject _bulletImpact;
+    [SerializeField] private PlayerInputManager _playerInputManager;    
+
+    [SerializeField] private Camera _playerFPSCamera;
+
+    [SerializeField] private WeaponEffects _weaponEffects;
 
     private float _fireRate;
     private float _baseDamage;
@@ -19,10 +20,16 @@ public class WeaponController : MonoBehaviour
     private float _maxRange;
 
     private float lastShotTime = 0f;
-    private bool canFire = false;
+    private bool isTriggerPulled = false;
     private bool isReloading = false;
 
-    private ParticleSystem _muzzleFlashParticleSystem;
+    [SerializeField] private Weapon _weaponData;
+
+    public ItemBase itemData
+    {
+        get { return _weaponData; }
+        set { _weaponData = (Weapon)value; }
+    }
 
     // Input actions
     InputContextData_FPS fpsContextData;
@@ -39,44 +46,25 @@ public class WeaponController : MonoBehaviour
     }
 
     public FireMode selectedFireMode;
-    public float muzzleFlashDuration;
 
     private void Awake()
-    {
+    {        
+        _playerFPSCamera = Camera.main;
+        _weaponEffects = GetComponent<WeaponEffects>();
+
         // Input
-        fpsContextData = new InputContextData_FPS();
+        _playerInputManager = GameObject.Find("InputManager").GetComponent<PlayerInputManager>();
+        fpsContextData = _playerInputManager.fpsInputContext;
 
         fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
         reloadAction = fpsContextData.FPSControls.Reload;
-
-        _muzzleFlashParticleSystem = _muzzleFlash.GetComponent<ParticleSystem>();
-
+       
         InitWeapon();
-    }
-
-    private void OnEnable()
-    {
-        fpsContextData.FPSControls.Enable();
-
-        fireAction.performed += e => canFire = true;
-        fireAction.canceled += e => canFire = false;
-
-        reloadAction.performed += e => StartCoroutine(ReloadWeapon());
-    }
-
-    private void OnDisable()
-    {
-        fpsContextData.FPSControls.Disable();
-
-        fireAction.performed -= e => canFire = true;
-        fireAction.canceled -= e => canFire = false;
-
-        reloadAction.performed -= e => StartCoroutine(ReloadWeapon());
-    }
+    }    
 
     public void Update()
     {
-        if (canFire && !isReloading)
+        if (isTriggerPulled && !isReloading)
         {
             ApplyFireMode();
             FireWeapon();
@@ -89,23 +77,19 @@ public class WeaponController : MonoBehaviour
     {
         if (currentAmmo >= 0)
         {           
-
             if (Time.time - lastShotTime >= 1 / _fireRate)
             {
                 lastShotTime = Time.time;
                 currentAmmo--;
 
-                StartCoroutine(ActivateWeaponEffects());
+                _weaponEffects.ActivateMuzzleFlash();
 
                 Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
-                RaycastHit bulletHit;
+                RaycastHit bulletHit;                
 
                 if (Physics.Raycast(bulletRay, out bulletHit, _maxRange))
                 {
-                    Vector3 impactPoint = bulletHit.point;
-
-                    GameObject impact = Instantiate(_bulletImpact, impactPoint, Quaternion.LookRotation(bulletHit.normal));
-                    Destroy(impact, 2f);
+                    _weaponEffects.CreateImpactEffect(bulletHit);
 
                     if (bulletHit.collider.gameObject.GetComponent<Rigidbody>() != null)
                     {
@@ -122,15 +106,20 @@ public class WeaponController : MonoBehaviour
     {
         if (selectedFireMode == FireMode.SemiAuto)
         {
-            canFire = false;
+            isTriggerPulled = false;
         }
         else if (selectedFireMode == FireMode.FullAuto)
         {
-            canFire = true;
+            isTriggerPulled = true;
         }
     }
 
-    private IEnumerator ReloadWeapon()
+    public void ReloadAction()
+    {
+        StartCoroutine(ReloadWeaponSequence());
+    }
+
+    private IEnumerator ReloadWeaponSequence()
     {
         if (currentAmmo <= _bulletsPerMagazine)
         {
@@ -143,18 +132,7 @@ public class WeaponController : MonoBehaviour
             isReloading = false;
             Debug.Log("Reloaded.");
         }
-    }
-
-    private IEnumerator ActivateWeaponEffects()
-    {
-        _muzzleFlash.SetActive(true);
-        _muzzleFlashParticleSystem.Play();
-
-        yield return new WaitForSeconds(muzzleFlashDuration);
-
-        _muzzleFlashParticleSystem.Stop();
-        _muzzleFlash.SetActive(false);
-    }
+    } 
 
     private void InitWeapon()
     {
@@ -168,6 +146,30 @@ public class WeaponController : MonoBehaviour
         lastShotTime = Time.time;
 
         currentAmmo = _bulletsPerMagazine;
+    }
+
+    #endregion
+
+    #region Input Callbacks
+
+    public void StartPrimaryTriggerAction()
+    {
+        isTriggerPulled = true;
+    }
+
+    public void StopPrimaryTriggerAction()
+    {
+        isTriggerPulled = false;
+    }
+
+    public void StartSecondaryTriggerAction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void StopSecondaryTriggerAction()
+    {
+        throw new System.NotImplementedException();
     }
 
     #endregion
