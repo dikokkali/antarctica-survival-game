@@ -11,6 +11,7 @@ public class PlayerInventory : MonoBehaviour
     // TESTING
 
     public GameObject equipMount;
+    public IEquippedItem equippedItemController;
 
     private List<InventorySlot> _inventory = new List<InventorySlot>();    
 
@@ -51,6 +52,12 @@ public class PlayerInventory : MonoBehaviour
     public void EquipItem(ItemBase item)
     {
         GameObject equipPrefab = Instantiate(item.itemPrefab);
+
+        if (equipPrefab.GetComponent<IEquippedItem>() != null)
+        {
+            equippedItemController = equipPrefab.GetComponent<IEquippedItem>();
+        }
+        else Debug.LogWarning("Error with equipped item controller assignment.");
 
         if (equipMount.transform.childCount > 0)
         {

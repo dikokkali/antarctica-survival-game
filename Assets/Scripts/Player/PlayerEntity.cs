@@ -5,8 +5,18 @@ using UnityEngine.InputSystem;
 
 public class PlayerEntity : MonoBehaviour
 { 
-    public PlayerInventory playerInventory;
+    public PlayerInventory playerInventory;    
     public Camera fpsCamera;
+
+    private void Awake()
+    {
+        playerInventory = GetComponent<PlayerInventory>();
+
+        if (playerInventory == null)
+        {
+            Debug.LogWarning("Inventory reference empty");
+        }
+    }
 
     private void Update()
     {

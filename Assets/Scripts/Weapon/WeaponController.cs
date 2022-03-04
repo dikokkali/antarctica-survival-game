@@ -60,23 +60,7 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         reloadAction = fpsContextData.FPSControls.Reload;
        
         InitWeapon();
-    }
-
-    private void OnEnable()
-    {     
-        fireAction.performed += StartPrimaryTrigger;
-        fireAction.canceled += StopPrimaryTrigger;
-
-        reloadAction.performed += e => StartCoroutine(ReloadWeapon());
-    }
-
-    private void OnDisable()
-    {
-        fireAction.performed -= StartPrimaryTrigger;
-        fireAction.canceled -= StopPrimaryTrigger;
-
-        reloadAction.performed -= e => StartCoroutine(ReloadWeapon());
-    }
+    }    
 
     public void Update()
     {
@@ -130,7 +114,12 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         }
     }
 
-    private IEnumerator ReloadWeapon()
+    public void ReloadAction()
+    {
+        StartCoroutine(ReloadWeaponSequence());
+    }
+
+    private IEnumerator ReloadWeaponSequence()
     {
         if (currentAmmo <= _bulletsPerMagazine)
         {
@@ -163,14 +152,24 @@ public class WeaponController : MonoBehaviour, IEquippedItem
 
     #region Input Callbacks
 
-    public void StartPrimaryTrigger(InputAction.CallbackContext ctx)
+    public void StartPrimaryTriggerAction()
     {
         isTriggerPulled = true;
     }
 
-    public void StopPrimaryTrigger(InputAction.CallbackContext ctx)
+    public void StopPrimaryTriggerAction()
     {
         isTriggerPulled = false;
+    }
+
+    public void StartSecondaryTriggerAction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void StopSecondaryTriggerAction()
+    {
+        throw new System.NotImplementedException();
     }
 
     #endregion

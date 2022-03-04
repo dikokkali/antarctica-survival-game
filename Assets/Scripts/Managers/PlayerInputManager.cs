@@ -82,6 +82,9 @@ public class PlayerInputManager : MonoBehaviour
         crouchAction = fpsInputContext.FPSControls.Crouch;
     }
 
+
+    // TODO: Refactor to be more specific 
+    // TODO: Check lambda function refactoring
     private void SubscribeActions()
     {
         runAction.started += e =>
