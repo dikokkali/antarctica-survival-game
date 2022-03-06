@@ -356,10 +356,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInputManager: {fileID: 0}
   _playerFPSCamera: {fileID: 0}
+  _cameraController: {fileID: 0}
   _weaponEffects: {fileID: 0}
   _weaponData: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
   currentAmmo: 0
-  selectedFireMode: 0
+  selectedFireMode: 1
 --- !u!114 &625731448
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -10,6 +10,7 @@ public class WeaponController : MonoBehaviour, IEquippedItem
     [SerializeField] private PlayerInputManager _playerInputManager;    
 
     [SerializeField] private Camera _playerFPSCamera;
+    [SerializeField] private VHS.CameraController _cameraController;
 
     [SerializeField] private WeaponEffects _weaponEffects;
 
@@ -54,6 +55,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
 
         // Input
         _playerInputManager = GameObject.Find("InputManager").GetComponent<PlayerInputManager>();
+        _cameraController = GameObject.Find("Camera_Holder").GetComponent<VHS.CameraController>();
+
         fpsContextData = _playerInputManager.fpsInputContext;
 
         fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
@@ -83,6 +86,7 @@ public class WeaponController : MonoBehaviour, IEquippedItem
                 currentAmmo--;
 
                 _weaponEffects.ActivateMuzzleFlash();
+                _cameraController.AddRecoil();
 
                 Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
                 RaycastHit bulletHit;                

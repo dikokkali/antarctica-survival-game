@@ -6,117 +6,164 @@ namespace VHS
     public class CameraController : MonoBehaviour
     {
         #region Variables
-            #region Data
-                [Space,Header("Data")]
-                [SerializeField] private CameraInputData camInputData = null;
+        #region Data
+        [Space,Header("Data")]
+        [SerializeField] private CameraInputData camInputData = null;
 
-                [Space,Header("Custom Classes")]
-                [SerializeField] private CameraZoom cameraZoom = null;
-                [SerializeField] private CameraSwaying cameraSway = null;
+        [Space,Header("Custom Classes")]
+        [SerializeField] private CameraZoom cameraZoom = null;
+        [SerializeField] private CameraSwaying cameraSway = null;
 
-            #endregion
+        #endregion
 
-            #region Settings
-                [Space,Header("Look Settings")]
-                [SerializeField] private Vector2 sensitivity = Vector2.zero;
-                [SerializeField] private Vector2 smoothAmount = Vector2.zero;
-                [SerializeField] [MinMaxSlider(-90f,90f)] private Vector2 lookAngleMinMax = Vector2.zero;
-            #endregion
+        #region Settings
+        [Space,Header("Look Settings")]
+        [SerializeField] private Vector2 sensitivity = Vector2.zero;
+        [SerializeField] private Vector2 smoothAmount = Vector2.zero;
+        [SerializeField] [MinMaxSlider(-90f,90f)] private Vector2 lookAngleMinMax = Vector2.zero;
+        #endregion
 
-            #region Private
-               private float m_yaw;
-               private float m_pitch;
+        #region Private
+        private float m_yaw;
+        private float m_pitch;
 
-               private float m_desiredYaw;
-               private float m_desiredPitch;
+        private float m_desiredYaw;
+        private float m_desiredPitch;
 
-                #region Components                    
-                    private Transform m_pitchTranform;
-                    private Camera m_cam;
-                #endregion
-            #endregion
+        [SerializeField] private float _recoilX;
+        [SerializeField] private float _recoilY;
+
+        private float _recoilXT;
+        private float _recoilYT;
+
+        [SerializeField] private Vector3 targetRot;
+        [SerializeField] private Vector3 currentRot;
+
+        public float returnFactor;
+        public float snapFactor;
+           
+
+        #region Components                    
+        private Transform m_pitchTranform;
+        private Camera m_cam;
+        #endregion
+        #endregion
             
         #endregion
 
         #region BuiltIn Methods  
-            void Awake()
-            {
-                GetComponents();
-                InitValues();
-                InitComponents();
-                ChangeCursorState();
-            }
 
-            void LateUpdate()
-            {
-                CalculateRotation();
-                SmoothRotation();
-                ApplyRotation();
-                HandleZoom();
-            }
+        void Awake()
+        {
+            GetComponents();
+            InitValues();
+            InitComponents();
+            ChangeCursorState();
+        }
+
+        void LateUpdate()
+        {
+            CalculateRotation();
+            SmoothRotation();
+            ApplyRecoil();
+            ApplyRotation();            
+            HandleZoom();           
+        }
+
         #endregion
 
         #region Custom Methods
-            void GetComponents()
-            {
-                m_pitchTranform = transform.GetChild(0).transform;
-                m_cam = GetComponentInChildren<Camera>();
-            }
 
-            void InitValues()
-            {
-                m_yaw = transform.eulerAngles.y;
-                m_desiredYaw = m_yaw;
-            }
+        void GetComponents()
+        {
+            m_pitchTranform = transform.GetChild(0).transform;
+            m_cam = GetComponentInChildren<Camera>();
+        }
 
-            void InitComponents()
-            {
-                cameraZoom.Init(m_cam, camInputData);
-                cameraSway.Init(m_cam.transform);
-            }
+        void InitValues()
+        {
+            m_yaw = transform.eulerAngles.y;
+            m_desiredYaw = m_yaw;
+        }
 
-            void CalculateRotation()
-            {
-                m_desiredYaw += camInputData.InputVector.x * sensitivity.x * Time.deltaTime;
-                m_desiredPitch -= camInputData.InputVector.y * sensitivity.y * Time.deltaTime;
+        void InitComponents()
+        {
+            cameraZoom.Init(m_cam, camInputData);
+            cameraSway.Init(m_cam.transform);
+        }
 
-                m_desiredPitch = Mathf.Clamp(m_desiredPitch,lookAngleMinMax.x,lookAngleMinMax.y);
-            }
+        void CalculateRotation()
+        {     
+            m_desiredYaw += camInputData.InputVector.x * sensitivity.x * Time.deltaTime;
+            m_desiredPitch -= camInputData.InputVector.y * sensitivity.y * Time.deltaTime;
 
-            void SmoothRotation()
-            {
-                m_yaw = Mathf.Lerp(m_yaw,m_desiredYaw, smoothAmount.x * Time.deltaTime);
-                m_pitch = Mathf.Lerp(m_pitch,m_desiredPitch, smoothAmount.y * Time.deltaTime);
-            }
+            m_desiredPitch = Mathf.Clamp(m_desiredPitch,lookAngleMinMax.x,lookAngleMinMax.y);
+        }
 
-            void ApplyRotation()
-            {
-                transform.eulerAngles = new Vector3(0f,m_yaw,0f);
-                m_pitchTranform.localEulerAngles = new Vector3(m_pitch,0f,0f);
-            }
+        void SmoothRotation()
+        {
+            m_yaw = Mathf.Lerp(m_yaw,m_desiredYaw, smoothAmount.x * Time.deltaTime);
+            m_pitch = Mathf.Lerp(m_pitch,m_desiredPitch, smoothAmount.y * Time.deltaTime);
+        }
 
-            public void HandleSway(Vector3 _inputVector,float _rawXInput)
-            {
-                cameraSway.SwayPlayer(_inputVector,_rawXInput);
-            }
+        void ApplyRotation()
+        {
+            transform.eulerAngles = new Vector3(0f,m_yaw,0f);
+            m_pitchTranform.localEulerAngles = new Vector3(m_pitch,0f,0f);
+        }
 
-            void HandleZoom()
-            {
-                if(camInputData.ZoomClicked || camInputData.ZoomReleased)
-                    cameraZoom.ChangeFOV(this);
+        public void HandleSway(Vector3 _inputVector,float _rawXInput)
+        {
+            cameraSway.SwayPlayer(_inputVector,_rawXInput);
+        }
 
-            }
+        void HandleZoom()
+        {
+            if(camInputData.ZoomClicked || camInputData.ZoomReleased)
+                cameraZoom.ChangeFOV(this);
 
-            public void ChangeRunFOV(bool _returning)
-            {
-                cameraZoom.ChangeRunFOV(_returning,this);
-            }
+        }
 
-            void ChangeCursorState()
-            {
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
+        public void ChangeRunFOV(bool _returning)
+        {
+            cameraZoom.ChangeRunFOV(_returning,this);
+        }
+
+        void ChangeCursorState()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+
+        #region Recoil
+
+        void ApplyRecoil()
+        {
+            //targetRot = Vector3.Slerp(new Vector3(m_pitch, m_yaw, 0f), targetRot, snapFactor * Time.deltaTime);
+
+            m_desiredPitch += _recoilXT;
+            m_desiredYaw += _recoilYT;
+
+            m_desiredPitch = Mathf.Lerp(m_desiredPitch, m_desiredPitch + _recoilXT, snapFactor * Time.deltaTime);
+            m_desiredYaw = Mathf.Lerp(m_desiredYaw, m_desiredYaw + _recoilYT, snapFactor * Time.deltaTime);
+
+            _recoilXT = 0f;
+            _recoilYT = 0f;
+
+            targetRot = Vector3.zero;//Vector3.Lerp(targetRot, Vector3.zero, returnFactor * Time.deltaTime);
+        }
+
+        public void AddRecoil()
+        {
+            //targetRot = new Vector3(m_pitch + Random.Range(0, _recoilX), m_yaw + Random.Range(-_recoilY, _recoilY), 0f);
+
+            _recoilXT = Random.Range(0f, _recoilX);
+            _recoilYT = Random.Range(-_recoilY, _recoilY);
+        }
+
+        #endregion
+
+
         #endregion
     }
 }
