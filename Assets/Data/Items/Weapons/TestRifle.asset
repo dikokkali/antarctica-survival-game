@@ -19,5 +19,5 @@ MonoBehaviour:
   baseDamage: 20
   fireRate: 10
   reloadTime: 3
-  bulletsPerMagazine: 20
+  bulletsPerMagazine: 60
   maxRange: Infinity

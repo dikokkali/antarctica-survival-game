@@ -5,17 +5,14 @@ using UnityEngine.InputSystem;
 
 public class PlayerEntity : MonoBehaviour
 { 
-    public PlayerInventory playerInventory;    
+    public PlayerInventory playerInventory;
+    public PlayerInputModule playerInputModule;
     public Camera fpsCamera;
 
     private void Awake()
     {
         playerInventory = GetComponent<PlayerInventory>();
-
-        if (playerInventory == null)
-        {
-            Debug.LogWarning("Inventory reference empty");
-        }
+        playerInputModule = GetComponent<PlayerInputModule>(); 
     }
 
     private void Update()
@@ -39,4 +36,13 @@ public class PlayerEntity : MonoBehaviour
             }
         }
     }
+
+    #region Player Config
+
+    void SetupPlayer()
+    {
+
+    }
+
+    #endregion
 }

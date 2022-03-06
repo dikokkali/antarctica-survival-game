@@ -2333,10 +2333,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1469615324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c81b589d13363b48be42785ed7aac95, type: 3}
+  m_Script: {fileID: 11500000, guid: 4ab5686f97d8a374da8d5e31f951a1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inputManager: {fileID: 268812088}
+  playerInventory: {fileID: 0}
+  playerInputModule: {fileID: 0}
+  fpsCamera: {fileID: 0}
+--- !u!114 &1469615329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1469615324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8aff5c6a56ae041bb54acab1d3abcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInputManager: {fileID: 0}
+  playerEntity: {fileID: 0}
 --- !u!1 &1570368290
 GameObject:
   m_ObjectHideFlags: 0

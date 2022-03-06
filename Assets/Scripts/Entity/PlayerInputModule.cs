@@ -25,7 +25,10 @@ public class PlayerInputModule: MonoBehaviour
         {
             _inputContextData = playerInputManager.fpsInputContext;
         }
+    }
 
+    private void Start()
+    {
         if (playerEntity != null)
         {
             _playerInventory = playerEntity.playerInventory;
