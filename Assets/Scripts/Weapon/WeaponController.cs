@@ -46,7 +46,7 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         FullAuto
     }
 
-    public FireMode selectedFireMode;
+    public FireMode selectedFireMode = FireMode.FullAuto;
 
     private void Awake()
     {        
@@ -86,7 +86,7 @@ public class WeaponController : MonoBehaviour, IEquippedItem
                 currentAmmo--;
 
                 _weaponEffects.ActivateMuzzleFlash();
-                _cameraController.AddRecoil();
+                _cameraController.AddRecoil();               
 
                 Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
                 RaycastHit bulletHit;                

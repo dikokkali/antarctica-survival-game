@@ -2,7 +2,7 @@
 using UnityEngine;
 
 namespace VHS
-{    
+{
     public class CameraController : MonoBehaviour
     {
         #region Variables
@@ -24,19 +24,23 @@ namespace VHS
         #endregion
 
         #region Private
-        private float m_yaw;
-        private float m_pitch;
+        [SerializeField] private float m_yaw;
+        [SerializeField] private float m_pitch;
 
-        private float m_desiredYaw;
-        private float m_desiredPitch;
+        [SerializeField] private float m_desiredYaw;
+        [SerializeField] private float m_desiredPitch;
+
+        [SerializeField] private float mouseInputYaw;
+        [SerializeField] private float mouseInputPitch;
 
         [SerializeField] private float _recoilX;
         [SerializeField] private float _recoilY;
 
-        private float _recoilXT;
-        private float _recoilYT;
+        [SerializeField] private float m_recoilPitch;
+        [SerializeField] private float m_recoilYaw;
 
         [SerializeField] private Vector3 targetRot;
+        [SerializeField] private Vector3 returnRot;
         [SerializeField] private Vector3 currentRot;
 
         public float returnFactor;
@@ -64,9 +68,10 @@ namespace VHS
         void LateUpdate()
         {
             CalculateRotation();
-            SmoothRotation();
+            CalculateRecoil();
             ApplyRecoil();
-            ApplyRotation();            
+            SmoothRotation();          
+            ApplyRotation();           
             HandleZoom();           
         }
 
@@ -93,7 +98,7 @@ namespace VHS
         }
 
         void CalculateRotation()
-        {     
+        {      
             m_desiredYaw += camInputData.InputVector.x * sensitivity.x * Time.deltaTime;
             m_desiredPitch -= camInputData.InputVector.y * sensitivity.y * Time.deltaTime;
 
@@ -101,9 +106,9 @@ namespace VHS
         }
 
         void SmoothRotation()
-        {
-            m_yaw = Mathf.Lerp(m_yaw,m_desiredYaw, smoothAmount.x * Time.deltaTime);
-            m_pitch = Mathf.Lerp(m_pitch,m_desiredPitch, smoothAmount.y * Time.deltaTime);
+        {    
+            m_yaw = Mathf.Lerp(m_yaw,m_desiredYaw + m_recoilYaw, smoothAmount.x * Time.deltaTime);
+            m_pitch = Mathf.Lerp(m_pitch,m_desiredPitch + m_recoilPitch, smoothAmount.y * Time.deltaTime);
         }
 
         void ApplyRotation()
@@ -137,29 +142,23 @@ namespace VHS
 
         #region Recoil
 
+        void CalculateRecoil()
+        {
+            targetRot = Vector3.Lerp(targetRot, Vector3.zero, returnFactor * Time.deltaTime);
+
+            m_recoilPitch = targetRot.x;
+            m_recoilYaw = targetRot.y;
+        }  
+
         void ApplyRecoil()
         {
-            //targetRot = Vector3.Slerp(new Vector3(m_pitch, m_yaw, 0f), targetRot, snapFactor * Time.deltaTime);
-
-            m_desiredPitch += _recoilXT;
-            m_desiredYaw += _recoilYT;
-
-            m_desiredPitch = Mathf.Lerp(m_desiredPitch, m_desiredPitch + _recoilXT, snapFactor * Time.deltaTime);
-            m_desiredYaw = Mathf.Lerp(m_desiredYaw, m_desiredYaw + _recoilYT, snapFactor * Time.deltaTime);
-
-            _recoilXT = 0f;
-            _recoilYT = 0f;
-
-            targetRot = Vector3.zero;//Vector3.Lerp(targetRot, Vector3.zero, returnFactor * Time.deltaTime);
+          
         }
 
         public void AddRecoil()
-        {
-            //targetRot = new Vector3(m_pitch + Random.Range(0, _recoilX), m_yaw + Random.Range(-_recoilY, _recoilY), 0f);
-
-            _recoilXT = Random.Range(0f, _recoilX);
-            _recoilYT = Random.Range(-_recoilY, _recoilY);
-        }
+        {     
+            targetRot += new Vector3(Random.Range(0f, _recoilX), Random.Range(-_recoilY, _recoilY), 0f);
+        }  
 
         #endregion
 
