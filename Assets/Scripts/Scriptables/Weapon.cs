@@ -9,7 +9,11 @@ public class Weapon : ItemBase
     public float fireRate;
     public float reloadTime;
     public float bulletsPerMagazine;
-    public float maxRange; 
+    public float maxRange;
+
+    public float recoilSpread_Vertical;
+    public float recoilSpread_Horizontal;
+
 
     public Weapon()
     {

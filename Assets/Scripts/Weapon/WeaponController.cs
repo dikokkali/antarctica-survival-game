@@ -85,8 +85,7 @@ public class WeaponController : MonoBehaviour, IEquippedItem
                 lastShotTime = Time.time;
                 currentAmmo--;
 
-                _weaponEffects.ActivateMuzzleFlash();
-                _cameraController.AddRecoil();               
+                _weaponEffects.ActivateMuzzleFlash();                            
 
                 Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
                 RaycastHit bulletHit;                
@@ -102,6 +101,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
                         bulletHit.collider.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(forceDirection.normalized * 100f, bulletHit.point);
                     }
                 }
+
+                _cameraController.AddRecoil(_weaponData.recoilSpread_Vertical, _weaponData.recoilSpread_Horizontal);
             }
         }
     }

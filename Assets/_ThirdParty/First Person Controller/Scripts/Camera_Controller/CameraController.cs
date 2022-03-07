@@ -41,7 +41,6 @@ namespace VHS
 
         [SerializeField] private Vector3 targetRot;
         [SerializeField] private Vector3 returnRot;
-        [SerializeField] private Vector3 currentRot;
 
         public float returnFactor;
         public float snapFactor;
@@ -69,7 +68,6 @@ namespace VHS
         {
             CalculateRotation();
             CalculateRecoil();
-            ApplyRecoil();
             SmoothRotation();          
             ApplyRotation();           
             HandleZoom();           
@@ -146,22 +144,19 @@ namespace VHS
         {
             targetRot = Vector3.Lerp(targetRot, Vector3.zero, returnFactor * Time.deltaTime);
 
-            m_recoilPitch = targetRot.x;
+            m_recoilPitch = -targetRot.x;
             m_recoilYaw = targetRot.y;
         }  
 
-        void ApplyRecoil()
+        public void AddRecoil(float verticalRecoil, float horizontalRecoil)
         {
-          
-        }
+            _recoilX = verticalRecoil;
+            _recoilY = horizontalRecoil;
 
-        public void AddRecoil()
-        {     
             targetRot += new Vector3(Random.Range(0f, _recoilX), Random.Range(-_recoilY, _recoilY), 0f);
         }  
 
         #endregion
-
 
         #endregion
     }
