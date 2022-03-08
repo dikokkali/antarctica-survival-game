@@ -158,14 +158,22 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 2
       m_RotationOrder: 4
-  sensitivity: {x: 20, y: 20}
+  sensitivity: {x: 6, y: 6}
   smoothAmount: {x: 12, y: 12}
   lookAngleMinMax: {x: -90, y: 90}
-  _recoilX: -6
-  _recoilY: 2
+  m_yaw: 0
+  m_pitch: 0
+  m_desiredYaw: 0
+  m_desiredPitch: 0
+  mouseInputYaw: 0
+  mouseInputPitch: 0
+  _recoilX: -2
+  _recoilY: 0.3
+  m_recoilPitch: 0
+  m_recoilYaw: 0
   targetRot: {x: 0, y: 0, z: 0}
-  currentRot: {x: 0, y: 0, z: 0}
-  returnFactor: 10
+  returnRot: {x: 0, y: 0, z: 0}
+  returnFactor: 2
   snapFactor: 10
 --- !u!1 &3843716869417167139
 GameObject:

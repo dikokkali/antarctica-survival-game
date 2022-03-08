@@ -45,6 +45,8 @@ public class PlayerInputModule: MonoBehaviour
         _inputContextData.FPSControls.AlternateAction.canceled += OnAlternateActionStop;
 
         _inputContextData.FPSControls.Reload.performed += OnReloadAction;
+
+        _inputContextData.FPSControls.Interact.performed += OnInteractAction;
     }
 
     private void OnDisable()
@@ -56,6 +58,8 @@ public class PlayerInputModule: MonoBehaviour
         _inputContextData.FPSControls.AlternateAction.canceled -= OnAlternateActionStop;
 
         _inputContextData.FPSControls.Reload.performed -= OnReloadAction;
+
+        _inputContextData.FPSControls.Interact.performed -= OnInteractAction;
     }
 
     #region Action-Mapped Methods
@@ -95,6 +99,12 @@ public class PlayerInputModule: MonoBehaviour
     void OnAlternateActionStop(InputAction.CallbackContext ctx)
     {
 
+    }
+
+    // Generic
+    void OnInteractAction(InputAction.CallbackContext ctx)
+    {
+        playerEntity.Interact();
     }
 
     #endregion
