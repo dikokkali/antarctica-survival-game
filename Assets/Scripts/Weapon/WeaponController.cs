@@ -127,15 +127,15 @@ public class WeaponController : MonoBehaviour, IEquippedItem
 
         if (isAimingDownSights)
         {
-            targetPosition = _playerFPSCamera.transform.position + (transform.position - opticsObject.position) + equippedHolder.transform.forward * _opticsForwardOffset; //equippedHolder.transform.position + (equippedHolder.position - opticsObject.position) + equippedHolder.transform.forward * _opticsForwardOffset;
+            targetPosition = _playerFPSCamera.transform.position + (transform.position - opticsObject.position) + equippedHolder.transform.forward * _opticsForwardOffset; 
 
             transform.rotation = _playerFPSCamera.transform.rotation;
             transform.position = targetPosition;
         }  
         else
         {
-            transform.position = _defaultPosition;
-            transform.rotation = _defaultRotation;
+            transform.localPosition = _defaultPosition;
+            transform.localRotation = _playerFPSCamera.transform.localRotation;
         }
         
     }
@@ -169,8 +169,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
 
         currentAmmo = _bulletsPerMagazine;
 
-        _defaultPosition = transform.position;
-        _defaultRotation = transform.rotation;
+        _defaultPosition = transform.localPosition;
+        _defaultRotation = transform.localRotation;
     }
 
     #endregion
@@ -189,13 +189,15 @@ public class WeaponController : MonoBehaviour, IEquippedItem
 
     public void StartSecondaryTriggerAction()
     {
-        // Toggle mode
-        isAimingDownSights = !isAimingDownSights;
+        isAimingDownSights = true;
+
+        _defaultPosition = transform.localPosition;
+        _defaultRotation = transform.localRotation;
     }
 
     public void StopSecondaryTriggerAction()
     {
-        ;
+        isAimingDownSights = false;
     }
 
     public void ReloadAction()
