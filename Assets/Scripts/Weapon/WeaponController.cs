@@ -7,12 +7,14 @@ using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour, IEquippedItem
 {
-    [SerializeField] private PlayerInputManager _playerInputManager;    
-
+    [Header("Weapon Dependencies")]
     [SerializeField] private Camera _playerFPSCamera;
     [SerializeField] private VHS.CameraController _cameraController;
 
     [SerializeField] private WeaponEffects _weaponEffects;
+
+    public Transform opticsObject;
+    public Transform equippedHolder;
 
     private float _fireRate;
     private float _baseDamage;
@@ -20,10 +22,20 @@ public class WeaponController : MonoBehaviour, IEquippedItem
     private float _reloadTime;
     private float _maxRange;
 
+    [Header("Aiming Down Sights")]
+    [SerializeField] private float _adsSpeed;
+    [SerializeField] private float _opticsForwardOffset;
+
     private float lastShotTime = 0f;
+
     private bool isTriggerPulled = false;
     private bool isReloading = false;
+    private bool isAimingDownSights = false;
 
+    private Vector3 _defaultPosition;
+    private Quaternion _defaultRotation;
+
+    [Header("Weapon Data")]
     [SerializeField] private Weapon _weaponData;
 
     public ItemBase itemData
@@ -32,13 +44,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         set { _weaponData = (Weapon)value; }
     }
 
-    // Input actions
-    InputContextData_FPS fpsContextData;
-    InputAction fireAction;
-    InputAction reloadAction;
-
     [Header("Debug Info")]
-    [ReadOnly] public float currentAmmo;
+    [ReadOnly] public float currentAmmo;   
 
     public enum FireMode
     {
@@ -49,20 +56,14 @@ public class WeaponController : MonoBehaviour, IEquippedItem
     public FireMode selectedFireMode = FireMode.FullAuto;
 
     private void Awake()
-    {        
+    {
+        InitWeapon();
+
         _playerFPSCamera = Camera.main;
         _weaponEffects = GetComponent<WeaponEffects>();
 
-        // Input
-        _playerInputManager = GameObject.Find("InputManager").GetComponent<PlayerInputManager>();
         _cameraController = GameObject.Find("Camera_Holder").GetComponent<VHS.CameraController>();
-
-        fpsContextData = _playerInputManager.fpsInputContext;
-
-        fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
-        reloadAction = fpsContextData.FPSControls.Reload;
-       
-        InitWeapon();
+        equippedHolder = GameObject.Find("Camera_Pivot").transform;
     }    
 
     public void Update()
@@ -71,7 +72,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         {
             ApplyFireMode();
             FireWeapon();
-        }       
+        }
+        PositionWeaponToADS();
     }
 
     #region Weapon Methods
@@ -119,10 +121,25 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         }
     }
 
-    public void ReloadAction()
+    private void PositionWeaponToADS()
     {
-        StartCoroutine(ReloadWeaponSequence());
+        Vector3 targetPosition = transform.position;
+
+        if (isAimingDownSights)
+        {
+            targetPosition = _playerFPSCamera.transform.position + (transform.position - opticsObject.position) + equippedHolder.transform.forward * _opticsForwardOffset; //equippedHolder.transform.position + (equippedHolder.position - opticsObject.position) + equippedHolder.transform.forward * _opticsForwardOffset;
+
+            transform.rotation = _playerFPSCamera.transform.rotation;
+            transform.position = targetPosition;
+        }  
+        else
+        {
+            transform.position = _defaultPosition;
+            transform.rotation = _defaultRotation;
+        }
+        
     }
+
 
     private IEnumerator ReloadWeaponSequence()
     {
@@ -151,6 +168,9 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         lastShotTime = Time.time;
 
         currentAmmo = _bulletsPerMagazine;
+
+        _defaultPosition = transform.position;
+        _defaultRotation = transform.rotation;
     }
 
     #endregion
@@ -169,12 +189,18 @@ public class WeaponController : MonoBehaviour, IEquippedItem
 
     public void StartSecondaryTriggerAction()
     {
-        throw new System.NotImplementedException();
+        // Toggle mode
+        isAimingDownSights = !isAimingDownSights;
     }
 
     public void StopSecondaryTriggerAction()
     {
-        throw new System.NotImplementedException();
+        ;
+    }
+
+    public void ReloadAction()
+    {
+        StartCoroutine(ReloadWeaponSequence());
     }
 
     #endregion

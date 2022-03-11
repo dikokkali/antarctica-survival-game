@@ -93,12 +93,18 @@ public class PlayerInputModule: MonoBehaviour
 
     void OnAlternateActionStart(InputAction.CallbackContext ctx)
     {
-
+        if (_playerInventory.equippedItemController != null)
+        {
+            _playerInventory.equippedItemController.StartSecondaryTriggerAction();
+        }
     }
 
     void OnAlternateActionStop(InputAction.CallbackContext ctx)
     {
-
+        if (_playerInventory.equippedItemController != null)
+        {
+            _playerInventory.equippedItemController.StopSecondaryTriggerAction();
+        }
     }
 
     // Generic

@@ -24,23 +24,23 @@ namespace VHS
         #endregion
 
         #region Private
-        [SerializeField] private float m_yaw;
-        [SerializeField] private float m_pitch;
+        private float m_yaw;
+        private float m_pitch;
 
-        [SerializeField] private float m_desiredYaw;
-        [SerializeField] private float m_desiredPitch;
+        private float m_desiredYaw;
+        private float m_desiredPitch;
 
-        [SerializeField] private float mouseInputYaw;
-        [SerializeField] private float mouseInputPitch;
+        private float mouseInputYaw;
+        private float mouseInputPitch;
 
-        [SerializeField] private float _recoilX;
-        [SerializeField] private float _recoilY;
+        private float _recoilX;
+        private float _recoilY;
 
-        [SerializeField] private float m_recoilPitch;
-        [SerializeField] private float m_recoilYaw;
+        private float m_recoilPitch;
+        private float m_recoilYaw;
 
-        [SerializeField] private Vector3 targetRot;
-        [SerializeField] private Vector3 returnRot;
+        private Vector3 targetRot;
+        private Vector3 returnRot;
 
         public float returnFactor;
         public float snapFactor;
