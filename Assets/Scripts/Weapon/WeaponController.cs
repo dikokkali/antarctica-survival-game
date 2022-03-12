@@ -53,10 +53,13 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         FullAuto
     }
 
-    public FireMode selectedFireMode = FireMode.FullAuto;
+    public FireMode selectedFireMode;
 
     private void Awake()
     {
+        // TEMPORARY FOR TESTING
+        selectedFireMode = FireMode.FullAuto;
+
         InitWeapon();
 
         _playerFPSCamera = Camera.main;
@@ -165,7 +168,6 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         _reloadTime = _weaponData.reloadTime;
         _maxRange = _weaponData.maxRange;
 
-        selectedFireMode = FireMode.SemiAuto;
         lastShotTime = Time.time;
 
         currentAmmo = _bulletsPerMagazine;
@@ -192,8 +194,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
     {
         isAimingDownSights = true;
 
-        _defaultPosition = transform.localPosition;
-        _defaultRotation = transform.localRotation;
+        //_defaultPosition = transform.localPosition;
+        //_defaultRotation = transform.localRotation;
     }
 
     public void StopSecondaryTriggerAction()
