@@ -441,7 +441,7 @@ MonoBehaviour:
   _weaponEffects: {fileID: 0}
   opticsObject: {fileID: 1666604085528960017}
   equippedHolder: {fileID: 0}
-  _adsSpeed: 5
+  _adsSpeed: 1
   _opticsForwardOffset: 0.2
   _weaponData: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
   currentAmmo: 0

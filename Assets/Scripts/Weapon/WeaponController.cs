@@ -130,11 +130,12 @@ public class WeaponController : MonoBehaviour, IEquippedItem
             targetPosition = _playerFPSCamera.transform.position + (transform.position - opticsObject.position) + equippedHolder.transform.forward * _opticsForwardOffset; 
 
             transform.rotation = _playerFPSCamera.transform.rotation;
-            transform.position = targetPosition;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, _adsSpeed * Time.deltaTime);
         }  
         else
         {
-            transform.localPosition = _defaultPosition;
+            // TODO: Not sure if this should be handled here
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, _defaultPosition, _adsSpeed * Time.deltaTime);
             transform.localRotation = _playerFPSCamera.transform.localRotation;
         }
         
