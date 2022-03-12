@@ -23,12 +23,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2153565450337119484}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3843716870190975468}
-  m_RootOrder: 0
+  m_Father: {fileID: 3843716869417167136}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3843716869363435361
 GameObject:
@@ -158,9 +158,23 @@ MonoBehaviour:
       m_PreInfinity: 0
       m_PostInfinity: 2
       m_RotationOrder: 4
-  sensitivity: {x: 20, y: 20}
+  sensitivity: {x: 6, y: 6}
   smoothAmount: {x: 12, y: 12}
   lookAngleMinMax: {x: -90, y: 90}
+  m_yaw: 0
+  m_pitch: 0
+  m_desiredYaw: 0
+  m_desiredPitch: 0
+  mouseInputYaw: 0
+  mouseInputPitch: 0
+  _recoilX: -2
+  _recoilY: 0.3
+  m_recoilPitch: 0
+  m_recoilYaw: 0
+  targetRot: {x: 0, y: 0, z: 0}
+  returnRot: {x: 0, y: 0, z: 0}
+  returnFactor: 2
+  snapFactor: 10
 --- !u!1 &3843716869417167139
 GameObject:
   m_ObjectHideFlags: 0
@@ -189,6 +203,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3843716870190975468}
+  - {fileID: 7666925333030493795}
   m_Father: {fileID: 3843716869363435366}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -222,8 +237,7 @@ Transform:
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 7666925333030493795}
+  m_Children: []
   m_Father: {fileID: 3843716869417167136}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -366,6 +380,8 @@ GameObject:
   - component: {fileID: 3843716870331872629}
   - component: {fileID: 3843716870331872628}
   - component: {fileID: 1319167313}
+  - component: {fileID: 1469615328}
+  - component: {fileID: 1469615329}
   m_Layer: 0
   m_Name: P_First_Person_Controller
   m_TagString: Untagged
@@ -572,4 +588,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item1: {fileID: 11400000, guid: a9e447d51b0ff714e9a29649efbff6d2, type: 2}
   item2: {fileID: 11400000, guid: a5f4eea16bd787441b1f47d092603159, type: 2}
-  equipMount: {fileID: 0}
+  equipMount: {fileID: 2153565450337119484}
+--- !u!114 &1469615328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3843716870331872631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ab5686f97d8a374da8d5e31f951a1b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInventory: {fileID: 0}
+  fpsCamera: {fileID: 3843716870190975471}
+--- !u!114 &1469615329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3843716870331872631}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf8aff5c6a56ae041bb54acab1d3abcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerInputManager: {fileID: 0}
+  playerEntity: {fileID: 0}

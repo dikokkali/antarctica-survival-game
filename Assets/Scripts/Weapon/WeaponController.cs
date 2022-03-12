@@ -7,11 +7,14 @@ using UnityEngine.InputSystem;
 
 public class WeaponController : MonoBehaviour, IEquippedItem
 {
-    [SerializeField] private PlayerInputManager _playerInputManager;    
-
+    [Header("Weapon Dependencies")]
     [SerializeField] private Camera _playerFPSCamera;
+    [SerializeField] private VHS.CameraController _cameraController;
 
     [SerializeField] private WeaponEffects _weaponEffects;
+
+    public Transform opticsObject;
+    public Transform equippedHolder;
 
     private float _fireRate;
     private float _baseDamage;
@@ -19,10 +22,20 @@ public class WeaponController : MonoBehaviour, IEquippedItem
     private float _reloadTime;
     private float _maxRange;
 
+    [Header("Aiming Down Sights")]
+    [SerializeField] private float _adsSpeed;
+    [SerializeField] private float _opticsForwardOffset;
+
     private float lastShotTime = 0f;
+
     private bool isTriggerPulled = false;
     private bool isReloading = false;
+    private bool isAimingDownSights = false;
 
+    private Vector3 _defaultPosition;
+    private Quaternion _defaultRotation;
+
+    [Header("Weapon Data")]
     [SerializeField] private Weapon _weaponData;
 
     public ItemBase itemData
@@ -31,13 +44,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         set { _weaponData = (Weapon)value; }
     }
 
-    // Input actions
-    InputContextData_FPS fpsContextData;
-    InputAction fireAction;
-    InputAction reloadAction;
-
     [Header("Debug Info")]
-    [ReadOnly] public float currentAmmo;
+    [ReadOnly] public float currentAmmo;   
 
     public enum FireMode
     {
@@ -48,18 +56,17 @@ public class WeaponController : MonoBehaviour, IEquippedItem
     public FireMode selectedFireMode;
 
     private void Awake()
-    {        
+    {
+        // TEMPORARY FOR TESTING
+        selectedFireMode = FireMode.FullAuto;
+
+        InitWeapon();
+
         _playerFPSCamera = Camera.main;
         _weaponEffects = GetComponent<WeaponEffects>();
 
-        // Input
-        _playerInputManager = GameObject.Find("InputManager").GetComponent<PlayerInputManager>();
-        fpsContextData = _playerInputManager.fpsInputContext;
-
-        fireAction = fpsContextData.FPSControls.UseEquippedFireWeapon;
-        reloadAction = fpsContextData.FPSControls.Reload;
-       
-        InitWeapon();
+        _cameraController = GameObject.Find("Camera_Holder").GetComponent<VHS.CameraController>();
+        equippedHolder = GameObject.Find("Camera_Pivot").transform;
     }    
 
     public void Update()
@@ -68,7 +75,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         {
             ApplyFireMode();
             FireWeapon();
-        }       
+        }
+        PositionWeaponToADS();
     }
 
     #region Weapon Methods
@@ -82,7 +90,7 @@ public class WeaponController : MonoBehaviour, IEquippedItem
                 lastShotTime = Time.time;
                 currentAmmo--;
 
-                _weaponEffects.ActivateMuzzleFlash();
+                _weaponEffects.ActivateMuzzleFlash();                            
 
                 Ray bulletRay = new Ray(_playerFPSCamera.transform.position, _playerFPSCamera.transform.forward);
                 RaycastHit bulletHit;                
@@ -98,6 +106,8 @@ public class WeaponController : MonoBehaviour, IEquippedItem
                         bulletHit.collider.gameObject.GetComponent<Rigidbody>().AddForceAtPosition(forceDirection.normalized * 100f, bulletHit.point);
                     }
                 }
+
+                _cameraController.AddRecoil(_weaponData.recoilSpread_Vertical, _weaponData.recoilSpread_Horizontal);
             }
         }
     }
@@ -114,10 +124,26 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         }
     }
 
-    public void ReloadAction()
+    private void PositionWeaponToADS()
     {
-        StartCoroutine(ReloadWeaponSequence());
+        Vector3 targetPosition = transform.position;
+
+        if (isAimingDownSights)
+        {
+            targetPosition = _playerFPSCamera.transform.position + (transform.position - opticsObject.position) + equippedHolder.transform.forward * _opticsForwardOffset; 
+
+            transform.rotation = _playerFPSCamera.transform.rotation;
+            transform.position = Vector3.MoveTowards(transform.position, targetPosition, _adsSpeed * Time.deltaTime);
+        }  
+        else
+        {
+            // TODO: Not sure if this should be handled here
+            transform.localPosition = Vector3.MoveTowards(transform.localPosition, _defaultPosition, _adsSpeed * Time.deltaTime);
+            transform.localRotation = _playerFPSCamera.transform.localRotation;
+        }
+        
     }
+
 
     private IEnumerator ReloadWeaponSequence()
     {
@@ -142,10 +168,12 @@ public class WeaponController : MonoBehaviour, IEquippedItem
         _reloadTime = _weaponData.reloadTime;
         _maxRange = _weaponData.maxRange;
 
-        selectedFireMode = FireMode.SemiAuto;
         lastShotTime = Time.time;
 
         currentAmmo = _bulletsPerMagazine;
+
+        _defaultPosition = transform.localPosition;
+        _defaultRotation = transform.localRotation;
     }
 
     #endregion
@@ -164,12 +192,20 @@ public class WeaponController : MonoBehaviour, IEquippedItem
 
     public void StartSecondaryTriggerAction()
     {
-        throw new System.NotImplementedException();
+        isAimingDownSights = true;
+
+        //_defaultPosition = transform.localPosition;
+        //_defaultRotation = transform.localRotation;
     }
 
     public void StopSecondaryTriggerAction()
     {
-        throw new System.NotImplementedException();
+        isAimingDownSights = false;
+    }
+
+    public void ReloadAction()
+    {
+        StartCoroutine(ReloadWeaponSequence());
     }
 
     #endregion

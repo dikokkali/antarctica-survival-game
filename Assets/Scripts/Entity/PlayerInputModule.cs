@@ -25,7 +25,10 @@ public class PlayerInputModule: MonoBehaviour
         {
             _inputContextData = playerInputManager.fpsInputContext;
         }
+    }
 
+    private void Start()
+    {
         if (playerEntity != null)
         {
             _playerInventory = playerEntity.playerInventory;
@@ -42,6 +45,8 @@ public class PlayerInputModule: MonoBehaviour
         _inputContextData.FPSControls.AlternateAction.canceled += OnAlternateActionStop;
 
         _inputContextData.FPSControls.Reload.performed += OnReloadAction;
+
+        _inputContextData.FPSControls.Interact.performed += OnInteractAction;
     }
 
     private void OnDisable()
@@ -53,6 +58,8 @@ public class PlayerInputModule: MonoBehaviour
         _inputContextData.FPSControls.AlternateAction.canceled -= OnAlternateActionStop;
 
         _inputContextData.FPSControls.Reload.performed -= OnReloadAction;
+
+        _inputContextData.FPSControls.Interact.performed -= OnInteractAction;
     }
 
     #region Action-Mapped Methods
@@ -86,12 +93,24 @@ public class PlayerInputModule: MonoBehaviour
 
     void OnAlternateActionStart(InputAction.CallbackContext ctx)
     {
-
+        if (_playerInventory.equippedItemController != null)
+        {
+            _playerInventory.equippedItemController.StartSecondaryTriggerAction();
+        }
     }
 
     void OnAlternateActionStop(InputAction.CallbackContext ctx)
     {
+        if (_playerInventory.equippedItemController != null)
+        {
+            _playerInventory.equippedItemController.StopSecondaryTriggerAction();
+        }
+    }
 
+    // Generic
+    void OnInteractAction(InputAction.CallbackContext ctx)
+    {
+        playerEntity.Interact();
     }
 
     #endregion

@@ -5,29 +5,31 @@ using UnityEngine.InputSystem;
 
 public class PlayerEntity : MonoBehaviour
 { 
-    public PlayerInventory playerInventory;    
-    public Camera fpsCamera;
+    private PlayerInputModule playerInputModule;
+    private EntityStatus playerStatus;
+
+    [HideInInspector] public PlayerInventory playerInventory;
+
+    [SerializeField] private Camera fpsCamera;
 
     private void Awake()
     {
         playerInventory = GetComponent<PlayerInventory>();
-
-        if (playerInventory == null)
+        playerInputModule = GetComponent<PlayerInputModule>();
+        playerStatus = GetComponent<EntityStatus>();
+        
+        if (fpsCamera == null)
         {
-            Debug.LogWarning("Inventory reference empty");
+            Debug.LogWarning("Player camera has not been assigned");
         }
-    }
+    }  
 
-    private void Update()
-    {
-        if (Keyboard.current.eKey.wasPressedThisFrame)
-        {
-            Interact();
-        }
-    }
+    #region Environment Interactions
 
-    void Interact()
+    public void Interact()
     {
+        Debug.Log("Interacting");
+
         Ray interactRay = new Ray(fpsCamera.transform.position, fpsCamera.transform.forward);
         RaycastHit rHit;
 
@@ -39,4 +41,6 @@ public class PlayerEntity : MonoBehaviour
             }
         }
     }
+
+    #endregion
 }

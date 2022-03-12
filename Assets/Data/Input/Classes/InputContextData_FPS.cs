@@ -105,6 +105,14 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""e87d49ef-55c0-44ad-b733-f33910365ab4"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -270,6 +278,17 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Quick Select 2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ece75e66-b74e-4a31-a837-c0d2bb6462cf"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -495,6 +514,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         m_FPSControls_Reload = m_FPSControls.FindAction("Reload", throwIfNotFound: true);
         m_FPSControls_QuickSelect1 = m_FPSControls.FindAction("Quick Select 1 ", throwIfNotFound: true);
         m_FPSControls_QuickSelect2 = m_FPSControls.FindAction("Quick Select 2", throwIfNotFound: true);
+        m_FPSControls_Interact = m_FPSControls.FindAction("Interact", throwIfNotFound: true);
         // UIControls
         m_UIControls = asset.FindActionMap("UIControls", throwIfNotFound: true);
         m_UIControls_UIPoint = m_UIControls.FindAction("UIPoint", throwIfNotFound: true);
@@ -565,6 +585,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
     private readonly InputAction m_FPSControls_Reload;
     private readonly InputAction m_FPSControls_QuickSelect1;
     private readonly InputAction m_FPSControls_QuickSelect2;
+    private readonly InputAction m_FPSControls_Interact;
     public struct FPSControlsActions
     {
         private @InputContextData_FPS m_Wrapper;
@@ -580,6 +601,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         public InputAction @Reload => m_Wrapper.m_FPSControls_Reload;
         public InputAction @QuickSelect1 => m_Wrapper.m_FPSControls_QuickSelect1;
         public InputAction @QuickSelect2 => m_Wrapper.m_FPSControls_QuickSelect2;
+        public InputAction @Interact => m_Wrapper.m_FPSControls_Interact;
         public InputActionMap Get() { return m_Wrapper.m_FPSControls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -622,6 +644,9 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @QuickSelect2.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect2;
                 @QuickSelect2.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect2;
                 @QuickSelect2.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnQuickSelect2;
+                @Interact.started -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_FPSControlsActionsCallbackInterface.OnInteract;
             }
             m_Wrapper.m_FPSControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -659,6 +684,9 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
                 @QuickSelect2.started += instance.OnQuickSelect2;
                 @QuickSelect2.performed += instance.OnQuickSelect2;
                 @QuickSelect2.canceled += instance.OnQuickSelect2;
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
             }
         }
     }
@@ -765,6 +793,7 @@ public class @InputContextData_FPS : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnQuickSelect1(InputAction.CallbackContext context);
         void OnQuickSelect2(InputAction.CallbackContext context);
+        void OnInteract(InputAction.CallbackContext context);
     }
     public interface IUIControlsActions
     {
